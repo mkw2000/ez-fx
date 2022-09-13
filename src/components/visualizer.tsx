@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Analyser } from "tone";
+import useWindowDimensions from "../hooks/use-window-dimensions";
 
 type Props = {
   analyser: Analyser | null;
@@ -8,6 +9,7 @@ type Props = {
 export function Visualizer({ analyser }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasCtxRef = useRef<CanvasRenderingContext2D | null>(null);
+  const { height, width } = useWindowDimensions();
 
   const draw = (ctx: CanvasRenderingContext2D) => {
     if (analyser === null) return;
@@ -17,7 +19,7 @@ export function Visualizer({ analyser }: Props) {
 
     let barHeight;
     let x = 0;
-    const barWidth = (400 / 128) * 2.5;
+    const barWidth = (width / 128) * 2.5;
 
     for (let i = 0; i < 128; i++) {
       barHeight = Number(analyserValues[i]) * 500;
@@ -59,7 +61,7 @@ export function Visualizer({ analyser }: Props) {
       <canvas
         ref={canvasRef}
         id="canvas"
-        width={400}
+        width={width}
         height={200}
         tabIndex={0}
         aria-label="Second Brain"

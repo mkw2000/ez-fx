@@ -4,7 +4,7 @@ import "./App.css";
 import * as Tone from "tone";
 import { FxControls } from "./components/fx-controls";
 import { FxSection } from "./components/fx-section";
-import { EffectType, Row } from "./types";
+import { Effects, EffectType, Row } from "./types";
 import {
   Analyser,
   Chorus,
@@ -16,23 +16,7 @@ import {
   UserMedia,
 } from "tone";
 import { Visualizer } from "./components/visualizer";
-
-const initialState: Row[] = [
-  {
-    groupName: "active-row",
-    effects: [],
-  },
-  {
-    groupName: "disabled-row",
-    effects: [
-      { id: "1", title: "Reverb" },
-      { id: "2", title: "Delay" },
-      { id: "3", title: "Chorus" },
-      { id: "4", title: "Distortion" },
-      { id: "5", title: "Phaser" },
-    ],
-  },
-];
+import { initialFxState } from "./constants";
 
 function App() {
   const analyser = useRef<Analyser | null>(null);
@@ -44,7 +28,7 @@ function App() {
   const mic = useRef<UserMedia | null>(null);
   const player = useRef<Player | null>(null);
 
-  const [rows, setRows] = useState<Row[]>(initialState);
+  const [rows, setRows] = useState<Row[]>(initialFxState);
   const [selectedEffect, setSelectedEffect] = useState<string | null>(null);
   const [audioContextStarted, setAudioContextStarted] =
     useState<boolean>(false);
@@ -156,14 +140,14 @@ function App() {
   useEffect(() => {
     if (player.current && analyser.current) {
       player.current.disconnect();
-
       player.current.chain(...effectsChain, analyser.current, Tone.Destination);
     } else {
-      console.log("player or analyser not ready");
+      alert("Oops, something went wrong -_-");
     }
   }, [effectsChain]);
 
   useEffect(() => {
+    // refreshing effects before redoing signal flow prevents weird bugs
     reverb.current?.dispose();
     delay.current?.dispose();
     chorus.current?.dispose();
@@ -181,19 +165,19 @@ function App() {
     const fxChain: Array<Reverb | Chorus | Delay | Distortion | Phaser> = [];
     activeFx.forEach((fx) => {
       switch (fx.title) {
-        case "Reverb":
+        case Effects.Reverb:
           if (reverb.current !== null) fxChain.push(reverb.current);
           break;
-        case "Delay":
+        case Effects.Delay:
           if (delay.current !== null) fxChain.push(delay.current);
           break;
-        case "Chorus":
+        case Effects.Chorus:
           if (chorus.current !== null) fxChain.push(chorus.current);
           break;
-        case "Distortion":
+        case Effects.Distortion:
           if (distortion.current !== null) fxChain.push(distortion.current);
           break;
-        case "Phaser":
+        case Effects.Phaser:
           if (phaser.current !== null) fxChain.push(phaser.current);
           break;
         default:
