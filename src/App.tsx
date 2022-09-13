@@ -37,8 +37,15 @@ function App() {
   >([]);
 
   useEffect(() => {
-    player.current = new Tone.Player();
+    return function cleanup() {
+      if (player.current) {
+      }
+    };
+  }, []);
 
+  useEffect(() => {
+    //initialize Tone.js object references
+    player.current = new Tone.Player();
     const MP3 =
       "https://cdn.glitch.com/2929cbe3-bafa-4b5f-833f-7debb607569b%2F1-02%20Blue%20Jeans%20(Gesaffelstein%20Remix).mp3?v=1569254348843";
 
@@ -48,95 +55,28 @@ function App() {
     player.current.connect(Tone.Master);
     player.current.load(MP3);
 
-    return function cleanup() {
-      if (player.current) {
-        player.current.dispose();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     analyser.current = new Tone.Analyser("waveform", 128);
-    return function cleanup() {
-      if (analyser.current) {
-        analyser.current.dispose();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     reverb.current = new Tone.Reverb();
-    return function cleanup() {
-      if (reverb.current) {
-        reverb.current.dispose();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     chorus.current = new Tone.Chorus();
-    return function cleanup() {
-      if (chorus.current) {
-        chorus.current.dispose();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     delay.current = new Tone.Delay();
-    return function cleanup() {
-      if (delay.current) {
-        delay.current.dispose();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     distortion.current = new Tone.Distortion();
-    return function cleanup() {
-      if (distortion.current) {
-        distortion.current.dispose();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     phaser.current = new Tone.Phaser();
-    return function cleanup() {
-      if (phaser.current) {
-        phaser.current.dispose();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     mic.current = new Tone.UserMedia();
+
+    //dispose of all references on unmount
     return function cleanup() {
-      if (mic.current) {
-        mic.current.dispose();
-      }
+      analyser.current && analyser.current.dispose();
+      reverb.current && reverb.current.dispose();
+      chorus.current && chorus.current.dispose();
+      delay.current && delay.current.dispose();
+      distortion.current && distortion.current.dispose();
+      phaser.current && phaser.current.dispose();
+      mic.current && mic.current.dispose();
+      player.current && player.current.dispose();
     };
   }, []);
 
-  const startAudioContext = () => {
-    Tone.start().then(() => {
-      setAudioContextStarted(true);
-
-      if (mic.current !== null) {
-        mic.current
-          .open()
-          .then(() => {
-            if (player.current !== null) {
-              player.current.start();
-            }
-          })
-          .catch((e) => {
-            // promise is rejected when the user doesn't have or allow mic access
-          });
-      }
-    });
-  };
-
+  // reconnect input to new signal flow
   useEffect(() => {
     if (player.current && analyser.current) {
       player.current.disconnect();
@@ -146,6 +86,7 @@ function App() {
     }
   }, [effectsChain]);
 
+  // handle drag and drop of effects
   useEffect(() => {
     // refreshing effects before redoing signal flow prevents weird bugs
     reverb.current?.dispose();
@@ -187,6 +128,59 @@ function App() {
     setEffectsChain(fxChain);
   }, [rows]);
 
+  // audio context must only be started after some user interaction
+  const startAudioContext = () => {
+    Tone.start().then(() => {
+      setAudioContextStarted(true);
+
+      if (mic.current !== null) {
+        mic.current
+          .open()
+          .then(() => {
+            if (player.current !== null) {
+              player.current.start();
+            }
+          })
+          .catch((e) => {
+            // promise is rejected when the user doesn't have or allow mic access
+          });
+      }
+    });
+  };
+
+  const onDragEnd = (result: DropResult) => {
+    const { destination, source, draggableId } = result;
+    if (!destination) {
+      return;
+    }
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    const clonedRows: Row[] = structuredClone(rows);
+
+    const sourceRow = clonedRows.filter(
+      (row: Row) => row.groupName === source.droppableId
+    );
+
+    const destinationRow = clonedRows.filter(
+      (row: Row) => row.groupName === destination.droppableId
+    );
+
+    const [movingEffect] = sourceRow[0].effects.filter(
+      (effect: EffectType) => effect.title === draggableId
+    );
+
+    sourceRow[0].effects.splice(source.index, 1);
+
+    destinationRow[0].effects.splice(destination.index, 0, movingEffect);
+    setRows(clonedRows);
+  };
+
   return (
     <div className="app-container">
       <div className="app-header">EzFx</div>
@@ -203,44 +197,7 @@ function App() {
         <div className="fx-controls">
           <FxControls selectedEffect={selectedEffect} />
         </div>
-        <DragDropContext
-          onDragEnd={(result: DropResult) => {
-            const { destination, source, draggableId } = result;
-            if (!destination) {
-              return;
-            }
-
-            if (
-              destination.droppableId === source.droppableId &&
-              destination.index === source.index
-            ) {
-              return;
-            }
-
-            const clonedRows: Row[] = structuredClone(rows);
-
-            const sourceRow = clonedRows.filter(
-              (row: Row) => row.groupName === source.droppableId
-            );
-
-            const destinationRow = clonedRows.filter(
-              (row: Row) => row.groupName === destination.droppableId
-            );
-
-            const [movingEffect] = sourceRow[0].effects.filter(
-              (effect: EffectType) => effect.title === draggableId
-            );
-
-            sourceRow[0].effects.splice(source.index, 1);
-
-            destinationRow[0].effects.splice(
-              destination.index,
-              0,
-              movingEffect
-            );
-            setRows(clonedRows);
-          }}
-        >
+        <DragDropContext onDragEnd={onDragEnd}>
           {rows
             ? rows.map((row: Row, i: number) => {
                 return (
