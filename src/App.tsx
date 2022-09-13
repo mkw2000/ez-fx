@@ -37,13 +37,6 @@ function App() {
   >([]);
 
   useEffect(() => {
-    return function cleanup() {
-      if (player.current) {
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     //initialize Tone.js object references
     player.current = new Tone.Player();
     const MP3 =
