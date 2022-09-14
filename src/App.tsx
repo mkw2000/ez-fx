@@ -4,12 +4,13 @@ import "./App.css";
 import * as Tone from "tone";
 import { FxControls } from "./components/fx-controls";
 import { FxSection } from "./components/fx-section";
-import { Effects, EffectType, Row } from "./types";
+import { EffectsEnum, EffectType, Row } from "./types";
 import {
   Analyser,
   Chorus,
   Delay,
   Distortion,
+  Mono,
   Phaser,
   Player,
   Reverb,
@@ -27,7 +28,7 @@ function App() {
   const phaser = useRef<Phaser | null>(null);
   const mic = useRef<UserMedia | null>(null);
   const player = useRef<Player | null>(null);
-
+  const mono = useRef<Mono | null>(null);
   const [rows, setRows] = useState<Row[]>(initialFxState);
   const [selectedEffect, setSelectedEffect] = useState<string | null>(null);
   const [audioContextStarted, setAudioContextStarted] =
@@ -55,6 +56,7 @@ function App() {
     distortion.current = new Tone.Distortion();
     phaser.current = new Tone.Phaser();
     mic.current = new Tone.UserMedia();
+    mono.current = new Tone.Mono();
 
     //dispose of all references on unmount
     return function cleanup() {
@@ -66,14 +68,20 @@ function App() {
       phaser.current && phaser.current.dispose();
       mic.current && mic.current.dispose();
       player.current && player.current.dispose();
+      mono.current && mono.current.dispose();
     };
   }, []);
 
   // reconnect input to new signal flow
   useEffect(() => {
-    if (player.current && analyser.current) {
-      player.current.disconnect();
-      player.current.chain(...effectsChain, analyser.current, Tone.Destination);
+    if (mic.current && analyser.current && mono.current) {
+      mic.current.disconnect();
+      mic.current.chain(
+        mono.current,
+        ...effectsChain,
+        analyser.current,
+        Tone.Destination
+      );
     } else {
       alert("Oops, something went wrong -_-");
     }
@@ -87,31 +95,33 @@ function App() {
     chorus.current?.dispose();
     distortion.current?.dispose();
     phaser.current?.dispose();
+    mono.current?.dispose();
 
     reverb.current = new Reverb();
     delay.current = new Delay();
     chorus.current = new Chorus();
     distortion.current = new Distortion();
     phaser.current = new Phaser();
+    mono.current = new Mono();
 
     const activeFx = rows.filter((row) => row.groupName === "active-row")[0]
       .effects;
     const fxChain: Array<Reverb | Chorus | Delay | Distortion | Phaser> = [];
     activeFx.forEach((fx) => {
       switch (fx.title) {
-        case Effects.Reverb:
+        case EffectsEnum.Reverb:
           if (reverb.current !== null) fxChain.push(reverb.current);
           break;
-        case Effects.Delay:
+        case EffectsEnum.Delay:
           if (delay.current !== null) fxChain.push(delay.current);
           break;
-        case Effects.Chorus:
+        case EffectsEnum.Chorus:
           if (chorus.current !== null) fxChain.push(chorus.current);
           break;
-        case Effects.Distortion:
+        case EffectsEnum.Distortion:
           if (distortion.current !== null) fxChain.push(distortion.current);
           break;
-        case Effects.Phaser:
+        case EffectsEnum.Phaser:
           if (phaser.current !== null) fxChain.push(phaser.current);
           break;
         default:
@@ -130,9 +140,9 @@ function App() {
         mic.current
           .open()
           .then(() => {
-            if (player.current !== null) {
-              player.current.start();
-            }
+            // if (player.current !== null) {
+            //   player.current.start();
+            // }
           })
           .catch((e) => {
             // promise is rejected when the user doesn't have or allow mic access
