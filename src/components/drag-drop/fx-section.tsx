@@ -1,6 +1,6 @@
 import { Droppable } from "@hello-pangea/dnd";
 import styled from "styled-components";
-import { EffectType } from "../types";
+import { EffectsEnum, EffectType } from "../../types";
 import { Effect } from "./effect";
 
 type Props = {

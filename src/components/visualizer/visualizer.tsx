@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Analyser } from "tone";
-import useWindowDimensions from "../hooks/use-window-dimensions";
+import { useWindowDimensions } from "../../hooks";
 
 type Props = {
   analyser: Analyser | null;

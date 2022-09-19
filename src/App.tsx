@@ -2,40 +2,50 @@ import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import * as Tone from "tone";
-import { FxControls } from "./components/fx-controls";
-import { FxSection } from "./components/fx-section";
+import { FxControls, FxSection, Visualizer } from "./components";
 import { EffectsEnum, EffectType, Row } from "./types";
 import {
   Analyser,
   Chorus,
-  Delay,
   Distortion,
   Mono,
   Phaser,
+  PingPongDelay,
   Player,
   Reverb,
   UserMedia,
 } from "tone";
-import { Visualizer } from "./components/visualizer";
-import { initialFxState } from "./constants";
+import { initialFxRowsState } from "./constants";
+import React from "react";
+import { FxOptionsContext, FxOptionsProvider } from "./providers";
 
 function App() {
   const analyser = useRef<Analyser | null>(null);
   const reverb = useRef<Reverb | null>(null);
-  const delay = useRef<Delay | null>(null);
+  const pingPongDelay = useRef<PingPongDelay | null>(null);
   const chorus = useRef<Chorus | null>(null);
   const distortion = useRef<Distortion | null>(null);
   const phaser = useRef<Phaser | null>(null);
   const mic = useRef<UserMedia | null>(null);
   const player = useRef<Player | null>(null);
   const mono = useRef<Mono | null>(null);
-  const [rows, setRows] = useState<Row[]>(initialFxState);
+  const [rows, setRows] = useState<Row[]>(initialFxRowsState);
   const [selectedEffect, setSelectedEffect] = useState<string | null>(null);
   const [audioContextStarted, setAudioContextStarted] =
     useState<boolean>(false);
   const [effectsChain, setEffectsChain] = useState<
-    Array<Reverb | Chorus | Delay | Distortion | Phaser>
+    Array<Reverb | Chorus | PingPongDelay | Distortion | Phaser>
   >([]);
+  const { state: effectOptionsState, dispatch } =
+    React.useContext(FxOptionsContext);
+
+  useEffect(() => {
+    reverb.current?.set(effectOptionsState.reverb);
+    pingPongDelay.current?.set(effectOptionsState.pingPongDelay);
+    distortion.current?.set(effectOptionsState.distortion);
+    chorus.current?.set(effectOptionsState.chorus);
+    phaser.current?.set(effectOptionsState.phaser);
+  }, [effectOptionsState]);
 
   useEffect(() => {
     //initialize Tone.js object references
@@ -50,11 +60,13 @@ function App() {
     player.current.load(MP3);
 
     analyser.current = new Tone.Analyser("waveform", 128);
-    reverb.current = new Tone.Reverb();
-    chorus.current = new Tone.Chorus();
-    delay.current = new Tone.Delay();
-    distortion.current = new Tone.Distortion();
-    phaser.current = new Tone.Phaser();
+    reverb.current = new Tone.Reverb(effectOptionsState.reverb);
+    chorus.current = new Tone.Chorus(effectOptionsState.chorus);
+    pingPongDelay.current = new Tone.PingPongDelay(
+      effectOptionsState.pingPongDelay
+    );
+    distortion.current = new Tone.Distortion(effectOptionsState.distortion);
+    phaser.current = new Tone.Phaser(effectOptionsState.phaser);
     mic.current = new Tone.UserMedia();
     mono.current = new Tone.Mono();
 
@@ -63,7 +75,7 @@ function App() {
       analyser.current && analyser.current.dispose();
       reverb.current && reverb.current.dispose();
       chorus.current && chorus.current.dispose();
-      delay.current && delay.current.dispose();
+      pingPongDelay.current && pingPongDelay.current.dispose();
       distortion.current && distortion.current.dispose();
       phaser.current && phaser.current.dispose();
       mic.current && mic.current.dispose();
@@ -74,14 +86,11 @@ function App() {
 
   // reconnect input to new signal flow
   useEffect(() => {
-    if (mic.current && analyser.current && mono.current) {
-      mic.current.disconnect();
-      mic.current.chain(
-        mono.current,
-        ...effectsChain,
-        analyser.current,
-        Tone.Destination
-      );
+    if (player.current && analyser.current && mono.current) {
+      console.log("reconnecting stuff", reverb.current?.get(), effectsChain);
+
+      player.current.disconnect();
+      player.current.chain(...effectsChain, analyser.current, Tone.Destination);
     } else {
       alert("Oops, something went wrong -_-");
     }
@@ -91,29 +100,32 @@ function App() {
   useEffect(() => {
     // refreshing effects before redoing signal flow prevents weird bugs
     reverb.current?.dispose();
-    delay.current?.dispose();
+    pingPongDelay.current?.dispose();
     chorus.current?.dispose();
     distortion.current?.dispose();
     phaser.current?.dispose();
     mono.current?.dispose();
 
-    reverb.current = new Reverb();
-    delay.current = new Delay();
-    chorus.current = new Chorus();
-    distortion.current = new Distortion();
-    phaser.current = new Phaser();
+    reverb.current = new Reverb(effectOptionsState.reverb);
+    pingPongDelay.current = new PingPongDelay(effectOptionsState.pingPongDelay);
+    chorus.current = new Chorus(effectOptionsState.chorus);
+    distortion.current = new Distortion(effectOptionsState.distortion);
+    phaser.current = new Phaser(effectOptionsState.phaser);
     mono.current = new Mono();
 
     const activeFx = rows.filter((row) => row.groupName === "active-row")[0]
       .effects;
-    const fxChain: Array<Reverb | Chorus | Delay | Distortion | Phaser> = [];
+    const fxChain: Array<
+      Reverb | Chorus | PingPongDelay | Distortion | Phaser
+    > = [];
     activeFx.forEach((fx) => {
       switch (fx.title) {
         case EffectsEnum.Reverb:
           if (reverb.current !== null) fxChain.push(reverb.current);
           break;
-        case EffectsEnum.Delay:
-          if (delay.current !== null) fxChain.push(delay.current);
+        case EffectsEnum.PingPongDelay:
+          if (pingPongDelay.current !== null)
+            fxChain.push(pingPongDelay.current);
           break;
         case EffectsEnum.Chorus:
           if (chorus.current !== null) fxChain.push(chorus.current);
@@ -133,6 +145,7 @@ function App() {
 
   // audio context must only be started after some user interaction
   const startAudioContext = () => {
+    console.log("starting audio context");
     Tone.start().then(() => {
       setAudioContextStarted(true);
 
@@ -140,12 +153,13 @@ function App() {
         mic.current
           .open()
           .then(() => {
-            // if (player.current !== null) {
-            //   player.current.start();
-            // }
+            if (player.current !== null) {
+              player.current.start();
+            }
           })
           .catch((e) => {
             // promise is rejected when the user doesn't have or allow mic access
+            alert(e.message);
           });
       }
     });
@@ -198,7 +212,9 @@ function App() {
       ) : null}
       <div className="app-main">
         <div className="fx-controls">
-          <FxControls selectedEffect={selectedEffect} />
+          {selectedEffect ? (
+            <FxControls selectedEffect={selectedEffect} />
+          ) : null}
         </div>
         <DragDropContext onDragEnd={onDragEnd}>
           {rows
