@@ -52,15 +52,16 @@ function App() {
 
   useEffect(() => {
     //initialize Tone.js object references
-    player.current = new Tone.Player();
-    const MP3 =
-      "https://cdn.glitch.com/2929cbe3-bafa-4b5f-833f-7debb607569b%2F1-02%20Blue%20Jeans%20(Gesaffelstein%20Remix).mp3?v=1569254348843";
 
-    player.current.loop = true;
-    player.current.autostart = false;
-    player.current.loopStart = 1.0;
-    player.current.connect(Tone.Master);
-    player.current.load(MP3);
+    // player.current = new Tone.Player();
+    // const MP3 =
+    //   "https://cdn.glitch.com/2929cbe3-bafa-4b5f-833f-7debb607569b%2F1-02%20Blue%20Jeans%20(Gesaffelstein%20Remix).mp3?v=1569254348843";
+
+    // player.current.loop = true;
+    // player.current.autostart = false;
+    // player.current.loopStart = 1.0;
+    // player.current.connect(Tone.Master);
+    // player.current.load(MP3);
 
     analyser.current = new Tone.Analyser("waveform", 128);
     reverb.current = new Tone.Reverb(effectOptionsState.reverb);
@@ -91,11 +92,11 @@ function App() {
 
   // reconnect input to new signal flow
   useEffect(() => {
-    if (player.current && analyser.current && mono.current) {
+    if (mic.current && analyser.current && mono.current) {
       console.log("reconnecting stuff", reverb.current?.get(), effectsChain);
 
-      player.current.disconnect();
-      player.current.chain(...effectsChain, analyser.current, Tone.Destination);
+      mic.current.disconnect();
+      mic.current.chain(...effectsChain, analyser.current, Tone.Destination);
     } else {
       alert("Oops, something went wrong -_-");
     }

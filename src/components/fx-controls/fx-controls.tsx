@@ -8,16 +8,15 @@ import { ChorusControls } from "./chorus-controls";
 import { PhaserControls } from "./phaser-controls";
 import { ChebyshevControls } from "./chebyshev-controls";
 import { StereoWidenerControls } from "./stereo-widener-controls";
+import { VibratoControls } from "./vibrato-controls";
+import debounce from "lodash.debounce";
+import { fxControlsDebounceTime } from "../../constants";
 
 type Props = {
   selectedEffect: string;
 };
 
 export function FxControls({ selectedEffect }: Props) {
-  const { state, dispatch } = React.useContext(FxOptionsContext);
-  const effect = EffectsEnum[selectedEffect as keyof typeof EffectsEnum];
-  const controls = state[effect];
-
   function renderEffectControls() {
     switch (selectedEffect) {
       case EffectsEnum.Reverb:
@@ -34,6 +33,8 @@ export function FxControls({ selectedEffect }: Props) {
         return <ChebyshevControls />;
       case EffectsEnum.StereoWidener:
         return <StereoWidenerControls />;
+      case EffectsEnum.Vibrato:
+        return <VibratoControls />;
       default:
         return null;
     }

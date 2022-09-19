@@ -38,6 +38,8 @@ export function StereoWidenerControls() {
   return (
     <div className="fx-controls">
       <div className="fx-control">
+        <div className="fx-controls-header">stereo widener</div>
+
         <label htmlFor="wet">Wet</label>
         <input
           type="range"

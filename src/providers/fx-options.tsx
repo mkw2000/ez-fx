@@ -10,6 +10,14 @@ import {
   ChebyshevOptions,
   OptionsState,
   StereoWidenerOptions,
+  VibratoOptions,
+  TremoloOptions,
+  BitCrusherOptions,
+  FrequencyShifterOptions,
+  AutoFilterOptions,
+  PitchShiftOptions,
+  AutoWahOptions,
+  FeedbackDelayOptions,
 } from "../types";
 
 type ProviderProps = {
@@ -25,7 +33,15 @@ type Action =
   | { type: "update-chorus"; payload: ChorusOptions }
   | { type: "update-phaser"; payload: PhaserOptions }
   | { type: "update-chebyshev"; payload: ChebyshevOptions }
-  | { type: "update-stereo-widener"; payload: StereoWidenerOptions };
+  | { type: "update-stereo-widener"; payload: StereoWidenerOptions }
+  | { type: "update-vibrato"; payload: VibratoOptions }
+  | { type: "update-tremolo"; payload: TremoloOptions }
+  | { type: "update-bit-crusher"; payload: BitCrusherOptions }
+  | { type: "update-pitch-shift"; payload: PitchShiftOptions }
+  | { type: "update-frequency-shifter"; payload: FrequencyShifterOptions }
+  | { type: "update-feedback-delay"; payload: FeedbackDelayOptions }
+  | { type: "update-auto-wah"; payload: AutoWahOptions }
+  | { type: "update-auto-filter"; payload: AutoFilterOptions };
 
 const FxOptionsContext = createContext<{
   state: OptionsState;
@@ -52,6 +68,22 @@ function reducer(state: OptionsState, action: Action): AppState {
       return { ...state, chebyshev: action.payload };
     case "update-stereo-widener":
       return { ...state, stereoWidener: action.payload };
+    case "update-vibrato":
+      return { ...state, vibrato: action.payload };
+    case "update-tremolo":
+      return { ...state, tremolo: action.payload };
+    case "update-bit-crusher":
+      return { ...state, bitCrusher: action.payload };
+    case "update-pitch-shift":
+      return { ...state, pitchShift: action.payload };
+    case "update-frequency-shifter":
+      return { ...state, frequencyShifter: action.payload };
+    case "update-feedback-delay":
+      return { ...state, feedbackDelay: action.payload };
+    case "update-auto-wah":
+      return { ...state, autoWah: action.payload };
+    case "update-auto-filter":
+      return { ...state, autoFilter: action.payload };
     default:
       throw new Error();
   }
