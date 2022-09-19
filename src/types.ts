@@ -42,12 +42,27 @@ export interface PhaserOptions {
   stages:Positive;
 }
 
+export interface ChebyshevOptions {
+  order: number;
+  oversample?: OverSampleType;
+  context?:BaseContext;
+  wet:NormalRange;
+}
+
+export interface StereoWidenerOptions {
+  width: NormalRange;
+  context?:BaseContext;
+  wet:NormalRange;
+}
+
 export type OptionsState = {
   reverb: ReverbOptions;
   pingPongDelay: PingPongDelayOptions;
   distortion: DistortionOptions;
   chorus: ChorusOptions;
   phaser: PhaserOptions;
+  chebyshev: ChebyshevOptions;
+  stereoWidener: StereoWidenerOptions;
 };
 
 export enum EffectsEnum {
@@ -56,6 +71,8 @@ export enum EffectsEnum {
   PingPongDelay = "pingPongDelay",
   Distortion = "distortion",
   Phaser = "phaser",
+  Chebyshev = "chebyshev",
+  StereoWidener = 'stereoWidener'
 }
 
 export type EffectType = {

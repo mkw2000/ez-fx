@@ -4,4 +4,5 @@ export * from './chorus-controls'
 export * from './ping-pong-delay-controls'
 export * from './distortion-controls'
 export * from './phaser-controls'
-
+export * from './chebyshev-controls'
+export * from './stereo-widener-controls'

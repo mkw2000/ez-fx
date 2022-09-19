@@ -6,6 +6,7 @@ import { FxControls, FxSection, Visualizer } from "./components";
 import { EffectsEnum, EffectType, Row } from "./types";
 import {
   Analyser,
+  Chebyshev,
   Chorus,
   Distortion,
   Mono,
@@ -25,6 +26,7 @@ function App() {
   const pingPongDelay = useRef<PingPongDelay | null>(null);
   const chorus = useRef<Chorus | null>(null);
   const distortion = useRef<Distortion | null>(null);
+  const chebyshev = useRef<Chebyshev | null>(null);
   const phaser = useRef<Phaser | null>(null);
   const mic = useRef<UserMedia | null>(null);
   const player = useRef<Player | null>(null);
@@ -34,7 +36,7 @@ function App() {
   const [audioContextStarted, setAudioContextStarted] =
     useState<boolean>(false);
   const [effectsChain, setEffectsChain] = useState<
-    Array<Reverb | Chorus | PingPongDelay | Distortion | Phaser>
+    Array<Reverb | Chorus | PingPongDelay | Distortion | Phaser | Chebyshev>
   >([]);
   const { state: effectOptionsState, dispatch } =
     React.useContext(FxOptionsContext);
@@ -45,6 +47,7 @@ function App() {
     distortion.current?.set(effectOptionsState.distortion);
     chorus.current?.set(effectOptionsState.chorus);
     phaser.current?.set(effectOptionsState.phaser);
+    chebyshev.current?.set(effectOptionsState.chebyshev);
   }, [effectOptionsState]);
 
   useEffect(() => {
@@ -67,6 +70,7 @@ function App() {
     );
     distortion.current = new Tone.Distortion(effectOptionsState.distortion);
     phaser.current = new Tone.Phaser(effectOptionsState.phaser);
+    chebyshev.current = new Tone.Chebyshev(effectOptionsState.chebyshev);
     mic.current = new Tone.UserMedia();
     mono.current = new Tone.Mono();
 
@@ -78,6 +82,7 @@ function App() {
       pingPongDelay.current && pingPongDelay.current.dispose();
       distortion.current && distortion.current.dispose();
       phaser.current && phaser.current.dispose();
+      chebyshev.current && chebyshev.current.dispose();
       mic.current && mic.current.dispose();
       player.current && player.current.dispose();
       mono.current && mono.current.dispose();
@@ -104,6 +109,7 @@ function App() {
     chorus.current?.dispose();
     distortion.current?.dispose();
     phaser.current?.dispose();
+    chebyshev.current?.dispose();
     mono.current?.dispose();
 
     reverb.current = new Reverb(effectOptionsState.reverb);
@@ -111,12 +117,13 @@ function App() {
     chorus.current = new Chorus(effectOptionsState.chorus);
     distortion.current = new Distortion(effectOptionsState.distortion);
     phaser.current = new Phaser(effectOptionsState.phaser);
+    chebyshev.current = new Chebyshev(effectOptionsState.chebyshev);
     mono.current = new Mono();
 
     const activeFx = rows.filter((row) => row.groupName === "active-row")[0]
       .effects;
     const fxChain: Array<
-      Reverb | Chorus | PingPongDelay | Distortion | Phaser
+      Reverb | Chorus | PingPongDelay | Distortion | Phaser | Chebyshev
     > = [];
     activeFx.forEach((fx) => {
       switch (fx.title) {
@@ -135,6 +142,9 @@ function App() {
           break;
         case EffectsEnum.Phaser:
           if (phaser.current !== null) fxChain.push(phaser.current);
+          break;
+        case EffectsEnum.Chebyshev:
+          if (chebyshev.current !== null) fxChain.push(chebyshev.current);
           break;
         default:
           break;

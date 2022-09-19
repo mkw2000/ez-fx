@@ -34,9 +34,17 @@ export const initialState: OptionsState = {
     baseFrequency: .1,
     stages: .1,
   },
+  chebyshev: {
+    wet: .1,
+    order: 1,
+  },
+  stereoWidener: {
+    wet: .1,
+    width: .1,
+  },
 };
 
-export const initialFxState: Row[] = [
+export const initialFxRowsState: Row[] = [
     {
       groupName: "active-row",
       effects: [],
@@ -49,6 +57,8 @@ export const initialFxState: Row[] = [
         { id: "3", title: "chorus" },
         { id: "4", title: "distortion" },
         { id: "5", title: "phaser" },
+        { id: "6", title: "chebyshev" },
+        { id: "7", title: "stereoWidener" },
       ],
     },
   ];

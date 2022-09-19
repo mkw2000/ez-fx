@@ -6,6 +6,8 @@ import { ReverbControls } from "./reverb-controls";
 import { DistortionControls } from "./distortion-controls";
 import { ChorusControls } from "./chorus-controls";
 import { PhaserControls } from "./phaser-controls";
+import { ChebyshevControls } from "./chebyshev-controls";
+import { StereoWidenerControls } from "./stereo-widener-controls";
 
 type Props = {
   selectedEffect: string;
@@ -28,6 +30,10 @@ export function FxControls({ selectedEffect }: Props) {
         return <DistortionControls />;
       case EffectsEnum.Phaser:
         return <PhaserControls />;
+      case EffectsEnum.Chebyshev:
+        return <ChebyshevControls />;
+      case EffectsEnum.StereoWidener:
+        return <StereoWidenerControls />;
       default:
         return null;
     }
