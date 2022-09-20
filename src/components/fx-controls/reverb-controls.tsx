@@ -8,9 +8,6 @@ export function ReverbControls() {
   const { reverb } = state;
   const { decay, preDelay, wet } = reverb;
 
-  const controls = Object.entries(reverb);
-  console.log(controls, "controls");
-
   const handleDecayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("handleDecayChange", e.target.value);
     dispatch({

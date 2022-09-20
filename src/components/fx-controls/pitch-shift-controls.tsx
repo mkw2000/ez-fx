@@ -9,34 +9,34 @@ export function PitchShiftControls() {
   const { pitch, windowSize, wet } = pitchShift;
 
   const handlePitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handlePitchChange", e.target.value);
+    console.log("handlePitchChange", e.target.defaultValue);
     dispatch({
       type: "update-pitch-shift",
       payload: {
         ...pitchShift,
-        pitch: parseFloat(e.target.value),
+        pitch: parseFloat(e.target.defaultValue),
       },
     });
   };
 
   const handleWindowSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleWindowSizeChange", e.target.value);
+    console.log("handleWindowSizeChange", e.target.defaultValue);
     dispatch({
       type: "update-pitch-shift",
       payload: {
         ...pitchShift,
-        windowSize: parseFloat(e.target.value),
+        windowSize: parseFloat(e.target.defaultValue),
       },
     });
   };
 
   const handleWetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleWetChange", e.target.value);
+    console.log("handleWetChange", e.target.defaultValue);
     dispatch({
       type: "update-pitch-shift",
       payload: {
         ...pitchShift,
-        wet: parseFloat(e.target.value),
+        wet: parseFloat(e.target.defaultValue),
       },
     });
   };
@@ -63,7 +63,7 @@ export function PitchShiftControls() {
             min="0"
             max="1"
             step="0.01"
-            value={wet}
+            defaultValue={wet}
             onChange={debouncedWetHandler}
           />
         </div>
@@ -75,7 +75,7 @@ export function PitchShiftControls() {
             min="-12"
             max="12"
             step="1"
-            value={pitch}
+            defaultValue={pitch}
             onChange={debouncedPitchHandler}
           />
         </div>
@@ -87,7 +87,7 @@ export function PitchShiftControls() {
             min="0.001"
             max="0.1"
             step="0.001"
-            value={windowSize}
+            defaultValue={windowSize}
             onChange={debouncedWindowSizeHandler}
           />
         </div>

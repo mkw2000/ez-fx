@@ -15,6 +15,7 @@ import {
   AutoWah,
   AutoFilter,
   Tremolo,
+  Compressor,
 } from "tone";
 import {
   Decibels,
@@ -28,6 +29,8 @@ import {
   Seconds,
   Time,
 } from "tone/build/esm/core/type/Units";
+
+//TODO : replace Time with seconds
 
 export interface ReverbOptions {
   wet: NormalRange;
@@ -112,10 +115,10 @@ export interface FrequencyShifterOptions {
 }
 
 export interface FeedbackDelayOptions {
-  delayTime: Time;
+  delayTime?: Time;
   feedback: NormalRange;
   wet: NormalRange;
-  maxDelay: Time;
+  maxDelay?: Time;
 }
 
 export interface BitCrusherOptions {
@@ -140,6 +143,16 @@ export interface AutoFilterOptions {
   depth: NormalRange;
 }
 
+export interface CompressorOptions {
+  threshold: Decibels;
+  ratio: Positive;
+  attack: Seconds;
+  release: Seconds;
+  context?: BaseContext;
+  wet: NormalRange;
+  knee: Decibels;
+}
+
 export type OptionsState = {
   reverb: ReverbOptions;
   pingPongDelay: PingPongDelayOptions;
@@ -156,6 +169,7 @@ export type OptionsState = {
   bitCrusher: BitCrusherOptions;
   autoWah: AutoWahOptions;
   autoFilter: AutoFilterOptions;
+  compressor: CompressorOptions;
 };
 
 export enum EffectsEnum {
@@ -167,13 +181,14 @@ export enum EffectsEnum {
   Chebyshev = "chebyshev",
   StereoWidener = "stereoWidener",
   Vibrato = "vibrato",
-  Tremelo = "tremelo",
+  Tremolo = "tremolo",
   PitchShift = "pitchShift",
   FrequencyShifter = "frequencyShifter",
   FeedbackDelay = "feedbackDelay",
   BitCrusher = "bitCrusher",
   AutoWah = "autoWah",
   AutoFilter = "autoFilter",
+  Compressor = "compressor",
 }
 
 export type EffectType = {
@@ -194,7 +209,8 @@ export type EffectType = {
     | FeedbackDelay
     | BitCrusher
     | AutoWah
-    | AutoFilter;
+    | AutoFilter
+    | Compressor;
 };
 
 export type Row = {

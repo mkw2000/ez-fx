@@ -89,6 +89,14 @@ export const initialState: OptionsState = {
     baseFrequency: 0.1,
     depth: 0.1,
   },
+  compressor: {
+    wet: 0.1,
+    threshold: 0.1,
+    ratio: 0.1,
+    attack: 0.1,
+    release: 0.1,
+    knee: 0.1,
+  },
 };
 
 export const initialFxRowsState: Row[] = [
@@ -114,6 +122,7 @@ export const initialFxRowsState: Row[] = [
       { id: "13", title: "bitCrusher" },
       { id: "14", title: "autoWah" },
       { id: "15", title: "autoFilter" },
+      { id: "16", title: "compressor" },
     ],
   },
 ];
