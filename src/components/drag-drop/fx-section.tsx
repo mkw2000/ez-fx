@@ -15,7 +15,8 @@ const Container = styled.div`
   align-items: stretch;
   justify-content: space-between;
   min-height: 100%;
-  min-width: 100%;
+  max-width: 100vw;
+  overflow-x: scroll;
 `;
 const Title = styled.h3``;
 const Effects = styled.div`
