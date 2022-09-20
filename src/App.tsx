@@ -6,15 +6,24 @@ import { FxSection, Visualizer, EffectController } from "./components";
 import { EffectsEnum, EffectType, Row } from "./types";
 import {
   Analyser,
+  AutoFilter,
+  BitCrusher,
   Chebyshev,
   Chorus,
+  Compressor,
   Distortion,
+  FeedbackDelay,
+  FrequencyShifter,
   Mono,
   Phaser,
   PingPongDelay,
+  PitchShift,
   Player,
   Reverb,
+  StereoWidener,
+  Tremolo,
   UserMedia,
+  Vibrato,
 } from "tone";
 import { initialFxRowsState } from "./constants";
 import React from "react";
@@ -31,12 +40,38 @@ function App() {
   const mic = useRef<UserMedia | null>(null);
   const player = useRef<Player | null>(null);
   const mono = useRef<Mono | null>(null);
+  const stereoWidener = useRef<StereoWidener | null>(null);
+  const bitCrusher = useRef<BitCrusher | null>(null);
+  const vibrato = useRef<Vibrato | null>(null);
+  const tremolo = useRef<Tremolo | null>(null);
+  const compressor = useRef<Compressor | null>(null);
+  const feedbackDelay = useRef<FeedbackDelay | null>(null);
+  const pitchShift = useRef<PitchShift | null>(null);
+  const frequencyShifter = useRef<FrequencyShifter | null>(null);
+  const autoFilter = useRef<AutoFilter | null>(null);
+
   const [rows, setRows] = useState<Row[]>(initialFxRowsState);
   const [selectedEffect, setSelectedEffect] = useState<string | null>(null);
   const [audioContextStarted, setAudioContextStarted] =
     useState<boolean>(false);
   const [effectsChain, setEffectsChain] = useState<
-    Array<Reverb | Chorus | PingPongDelay | Distortion | Phaser | Chebyshev>
+    Array<
+      | Reverb
+      | Chorus
+      | PingPongDelay
+      | Distortion
+      | Phaser
+      | Chebyshev
+      | StereoWidener
+      | Tremolo
+      | Vibrato
+      | FrequencyShifter
+      | FeedbackDelay
+      | PitchShift
+      | BitCrusher
+      | AutoFilter
+      | Compressor
+    >
   >([]);
   const { state: effectOptionsState, dispatch } =
     React.useContext(FxOptionsContext);
@@ -48,6 +83,15 @@ function App() {
     chorus.current?.set(effectOptionsState.chorus);
     phaser.current?.set(effectOptionsState.phaser);
     chebyshev.current?.set(effectOptionsState.chebyshev);
+    stereoWidener.current?.set(effectOptionsState.stereoWidener);
+    bitCrusher.current?.set(effectOptionsState.bitCrusher);
+    vibrato.current?.set(effectOptionsState.vibrato);
+    tremolo.current?.set(effectOptionsState.tremolo);
+    compressor.current?.set(effectOptionsState.compressor);
+    feedbackDelay.current?.set(effectOptionsState.feedbackDelay);
+    pitchShift.current?.set(effectOptionsState.pitchShift);
+    frequencyShifter.current?.set(effectOptionsState.frequencyShifter);
+    autoFilter.current?.set(effectOptionsState.autoFilter);
   }, [effectOptionsState]);
 
   useEffect(() => {
@@ -62,6 +106,21 @@ function App() {
     distortion.current = new Tone.Distortion(effectOptionsState.distortion);
     phaser.current = new Tone.Phaser(effectOptionsState.phaser);
     chebyshev.current = new Tone.Chebyshev(effectOptionsState.chebyshev);
+    stereoWidener.current = new Tone.StereoWidener(
+      effectOptionsState.stereoWidener
+    );
+    bitCrusher.current = new Tone.BitCrusher(effectOptionsState.bitCrusher);
+    vibrato.current = new Tone.Vibrato(effectOptionsState.vibrato);
+    tremolo.current = new Tone.Tremolo(effectOptionsState.tremolo);
+    compressor.current = new Tone.Compressor(effectOptionsState.compressor);
+    feedbackDelay.current = new Tone.FeedbackDelay(
+      effectOptionsState.feedbackDelay
+    );
+    pitchShift.current = new Tone.PitchShift(effectOptionsState.pitchShift);
+    frequencyShifter.current = new Tone.FrequencyShifter(
+      effectOptionsState.frequencyShifter
+    );
+    autoFilter.current = new Tone.AutoFilter(effectOptionsState.autoFilter);
     mic.current = new Tone.UserMedia();
     mono.current = new Tone.Mono();
 
@@ -74,6 +133,15 @@ function App() {
       distortion.current && distortion.current.dispose();
       phaser.current && phaser.current.dispose();
       chebyshev.current && chebyshev.current.dispose();
+      stereoWidener.current && stereoWidener.current.dispose();
+      bitCrusher.current && bitCrusher.current.dispose();
+      pitchShift.current && pitchShift.current.dispose();
+      frequencyShifter.current && frequencyShifter.current.dispose();
+      autoFilter.current && autoFilter.current.dispose();
+      tremolo.current && tremolo.current.dispose();
+      vibrato.current && vibrato.current.dispose();
+      compressor.current && compressor.current.dispose();
+      feedbackDelay.current && feedbackDelay.current.dispose();
       mic.current && mic.current.dispose();
       player.current && player.current.dispose();
       mono.current && mono.current.dispose();
@@ -104,6 +172,16 @@ function App() {
     distortion.current?.dispose();
     phaser.current?.dispose();
     chebyshev.current?.dispose();
+    stereoWidener.current?.dispose();
+    bitCrusher.current?.dispose();
+    vibrato.current?.dispose();
+    tremolo.current?.dispose();
+    compressor.current?.dispose();
+    feedbackDelay.current?.dispose();
+    pitchShift.current?.dispose();
+    frequencyShifter.current?.dispose();
+    autoFilter.current?.dispose();
+
     mono.current?.dispose();
 
     reverb.current = new Reverb(effectOptionsState.reverb);
@@ -112,12 +190,38 @@ function App() {
     distortion.current = new Distortion(effectOptionsState.distortion);
     phaser.current = new Phaser(effectOptionsState.phaser);
     chebyshev.current = new Chebyshev(effectOptionsState.chebyshev);
+    stereoWidener.current = new StereoWidener(effectOptionsState.stereoWidener);
+    bitCrusher.current = new BitCrusher(effectOptionsState.bitCrusher);
+    vibrato.current = new Vibrato(effectOptionsState.vibrato);
+    tremolo.current = new Tremolo(effectOptionsState.tremolo);
+    compressor.current = new Compressor(effectOptionsState.compressor);
+    feedbackDelay.current = new FeedbackDelay(effectOptionsState.feedbackDelay);
+    pitchShift.current = new PitchShift(effectOptionsState.pitchShift);
+    frequencyShifter.current = new FrequencyShifter(
+      effectOptionsState.frequencyShifter
+    );
+    autoFilter.current = new AutoFilter(effectOptionsState.autoFilter);
+
     mono.current = new Mono();
 
     const activeFx = rows.filter((row) => row.groupName === "active-row")[0]
       .effects;
     const fxChain: Array<
-      Reverb | Chorus | PingPongDelay | Distortion | Phaser | Chebyshev
+      | Reverb
+      | Chorus
+      | PingPongDelay
+      | Distortion
+      | Phaser
+      | Chebyshev
+      | StereoWidener
+      | BitCrusher
+      | Vibrato
+      | Tremolo
+      | Compressor
+      | FeedbackDelay
+      | PitchShift
+      | FrequencyShifter
+      | AutoFilter
     > = [];
     activeFx.forEach((fx) => {
       switch (fx.title) {
@@ -140,6 +244,37 @@ function App() {
         case EffectsEnum.Chebyshev:
           if (chebyshev.current !== null) fxChain.push(chebyshev.current);
           break;
+        case EffectsEnum.StereoWidener:
+          if (stereoWidener.current !== null)
+            fxChain.push(stereoWidener.current);
+          break;
+        case EffectsEnum.BitCrusher:
+          if (bitCrusher.current !== null) fxChain.push(bitCrusher.current);
+          break;
+        case EffectsEnum.Vibrato:
+          if (vibrato.current !== null) fxChain.push(vibrato.current);
+          break;
+        case EffectsEnum.Tremolo:
+          if (tremolo.current !== null) fxChain.push(tremolo.current);
+          break;
+        case EffectsEnum.Compressor:
+          if (compressor.current !== null) fxChain.push(compressor.current);
+          break;
+        case EffectsEnum.FeedbackDelay:
+          if (feedbackDelay.current !== null)
+            fxChain.push(feedbackDelay.current);
+          break;
+        case EffectsEnum.PitchShift:
+          if (pitchShift.current !== null) fxChain.push(pitchShift.current);
+          break;
+        case EffectsEnum.FrequencyShifter:
+          if (frequencyShifter.current !== null)
+            fxChain.push(frequencyShifter.current);
+          break;
+        case EffectsEnum.AutoFilter:
+          if (autoFilter.current !== null) fxChain.push(autoFilter.current);
+          break;
+
         default:
           break;
       }
