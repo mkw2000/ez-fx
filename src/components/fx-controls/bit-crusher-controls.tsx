@@ -9,7 +9,6 @@ export function BitCrusherControls() {
   const { bits, wet } = bitCrusher;
 
   const handleBitsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleBitsChange", e.target.defaultValue);
     dispatch({
       type: "update-bit-crusher",
       payload: {
@@ -20,7 +19,6 @@ export function BitCrusherControls() {
   };
 
   const handleWetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleWetChange", e.target.defaultValue);
     dispatch({
       type: "update-bit-crusher",
       payload: {

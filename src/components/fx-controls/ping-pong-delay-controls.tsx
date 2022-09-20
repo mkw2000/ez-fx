@@ -9,7 +9,6 @@ export function PingPongDelayControls() {
   const { wet, delayTime, feedback, maxDelay } = pingPongDelay;
 
   const handleWetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleWetChange", e.target.value);
     dispatch({
       type: "update-ping-pong-delay",
       payload: {
@@ -20,7 +19,6 @@ export function PingPongDelayControls() {
   };
 
   const handleDelayTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleDelayTimeChange", e.target.value);
     dispatch({
       type: "update-ping-pong-delay",
       payload: {
@@ -31,7 +29,6 @@ export function PingPongDelayControls() {
   };
 
   const handleFeedbackChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleFeedbackChange", e.target.value);
     dispatch({
       type: "update-ping-pong-delay",
       payload: {
@@ -42,7 +39,6 @@ export function PingPongDelayControls() {
   };
 
   const handleMaxDelayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleMaxDelayChange", e.target.value);
     dispatch({
       type: "update-ping-pong-delay",
       payload: {

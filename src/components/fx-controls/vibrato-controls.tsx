@@ -8,7 +8,6 @@ export function VibratoControls() {
   const { vibrato } = state;
   const { depth, frequency, wet } = vibrato;
   const handleDepthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleDepthChange", e.target.value);
     dispatch({
       type: "update-vibrato",
       payload: {
@@ -19,7 +18,6 @@ export function VibratoControls() {
   };
 
   const handleFrequencyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleFrequencyChange", e.target.value);
     dispatch({
       type: "update-vibrato",
       payload: {
@@ -30,7 +28,6 @@ export function VibratoControls() {
   };
 
   const handleWetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleWetChange", e.target.value);
     dispatch({
       type: "update-vibrato",
       payload: {

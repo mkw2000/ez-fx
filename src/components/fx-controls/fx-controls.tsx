@@ -17,6 +17,7 @@ import { BitCrusherControls } from "./bit-crusher-controls";
 import { PitchShiftControls } from "./pitch-shift-controls";
 import { FeedbackDelayControls } from "./feedback-delay-controls";
 import { CompressorControls } from "./compressor-controls";
+import { EffectController } from "../effect-controller/effect-controller";
 
 type Props = {
   selectedEffect: string;
@@ -44,7 +45,7 @@ export function FxControls({ selectedEffect }: Props) {
       case EffectsEnum.Tremolo:
         return <TremoloControls />;
       case EffectsEnum.BitCrusher:
-        return <BitCrusherControls />;
+        return <EffectController effect={EffectsEnum.BitCrusher} />;
       case EffectsEnum.PitchShift:
         return <PitchShiftControls />;
       case EffectsEnum.FeedbackDelay:

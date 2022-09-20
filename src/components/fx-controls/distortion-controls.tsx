@@ -9,7 +9,6 @@ export function DistortionControls() {
   const { wet, distortion: dist } = distortion;
 
   const handleWetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleWetChange", e.target.value);
     dispatch({
       type: "update-distortion",
       payload: {
@@ -22,7 +21,6 @@ export function DistortionControls() {
   const handleDistortionAmountChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    console.log("handleDistortionAmountChange", e.target.value);
     dispatch({
       type: "update-distortion",
       payload: {

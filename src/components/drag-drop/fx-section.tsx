@@ -15,13 +15,13 @@ const Container = styled.div`
   align-items: stretch;
   justify-content: space-between;
   min-height: 100%;
-  max-width: 100vw;
-  overflow-x: scroll;
 `;
 const Title = styled.h3``;
 const Effects = styled.div`
   display: flex;
   flex-direction: row;
+  max-width: 100vw;
+  overflow-x: scroll;
 `;
 
 export function FxSection({ onSelect, row, effects }: Props) {

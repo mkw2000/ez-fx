@@ -10,7 +10,6 @@ export function FeedbackDelayControls() {
   const { maxDelay, feedback, wet } = feedbackDelay;
 
   const handleFeedbackChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleFeedbackChange", e.target.value);
     dispatch({
       type: "update-feedback-delay",
       payload: {
@@ -21,7 +20,6 @@ export function FeedbackDelayControls() {
   };
 
   const handleWetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleWetChange", e.target.value);
     dispatch({
       type: "update-feedback-delay",
       payload: {

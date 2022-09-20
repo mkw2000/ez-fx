@@ -9,7 +9,6 @@ export function TremoloControls() {
   const { depth, frequency, wet, spread } = tremolo;
 
   const handleDepthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleDepthChange", e.target.value);
     dispatch({
       type: "update-tremolo",
       payload: {
@@ -20,7 +19,6 @@ export function TremoloControls() {
   };
 
   const handleFrequencyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleFrequencyChange", e.target.value);
     dispatch({
       type: "update-tremolo",
       payload: {
@@ -31,7 +29,6 @@ export function TremoloControls() {
   };
 
   const handleWetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleWetChange", e.target.value);
     dispatch({
       type: "update-tremolo",
       payload: {
@@ -42,7 +39,6 @@ export function TremoloControls() {
   };
 
   const handleSpreadChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleSpreadChange", e.target.value);
     dispatch({
       type: "update-tremolo",
       payload: {

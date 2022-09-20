@@ -42,6 +42,7 @@ function App() {
     React.useContext(FxOptionsContext);
 
   useEffect(() => {
+    console.log("effectOptionsState", effectOptionsState);
     reverb.current?.set(effectOptionsState.reverb);
     pingPongDelay.current?.set(effectOptionsState.pingPongDelay);
     distortion.current?.set(effectOptionsState.distortion);
@@ -93,8 +94,6 @@ function App() {
   // reconnect input to new signal flow
   useEffect(() => {
     if (mic.current && analyser.current && mono.current) {
-      console.log("reconnecting stuff", reverb.current?.get(), effectsChain);
-
       mic.current.disconnect();
       mic.current.chain(...effectsChain, analyser.current, Tone.Destination);
     } else {
@@ -156,7 +155,6 @@ function App() {
 
   // audio context must only be started after some user interaction
   const startAudioContext = () => {
-    console.log("starting audio context");
     Tone.start().then(() => {
       setAudioContextStarted(true);
 

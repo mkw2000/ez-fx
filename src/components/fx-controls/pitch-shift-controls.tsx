@@ -9,7 +9,6 @@ export function PitchShiftControls() {
   const { pitch, windowSize, wet } = pitchShift;
 
   const handlePitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handlePitchChange", e.target.defaultValue);
     dispatch({
       type: "update-pitch-shift",
       payload: {
@@ -20,7 +19,6 @@ export function PitchShiftControls() {
   };
 
   const handleWindowSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleWindowSizeChange", e.target.defaultValue);
     dispatch({
       type: "update-pitch-shift",
       payload: {
@@ -31,7 +29,6 @@ export function PitchShiftControls() {
   };
 
   const handleWetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleWetChange", e.target.defaultValue);
     dispatch({
       type: "update-pitch-shift",
       payload: {

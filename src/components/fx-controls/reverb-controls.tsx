@@ -9,7 +9,6 @@ export function ReverbControls() {
   const { decay, preDelay, wet } = reverb;
 
   const handleDecayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleDecayChange", e.target.value);
     dispatch({
       type: "update-reverb",
       payload: {
@@ -20,7 +19,6 @@ export function ReverbControls() {
   };
 
   const handlePreDelayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handlePreDelayChange", e.target.value);
     dispatch({
       type: "update-reverb",
       payload: {
@@ -31,7 +29,6 @@ export function ReverbControls() {
   };
 
   const handleWetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleWetChange", e.target.value);
     dispatch({
       type: "update-reverb",
       payload: {

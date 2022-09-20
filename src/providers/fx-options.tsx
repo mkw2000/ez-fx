@@ -47,7 +47,7 @@ type Action =
 
 const FxOptionsContext = createContext<{
   state: OptionsState;
-  dispatch: Dispatch<Action>;
+  dispatch: Dispatch<any>;
 }>({
   state: initialState,
   dispatch: () => null,
@@ -56,7 +56,6 @@ const FxOptionsContext = createContext<{
 function reducer(state: OptionsState, action: Action): AppState {
   switch (action.type) {
     case "update-reverb":
-      console.log("updatttteeee", action.payload);
       return { ...state, reverb: action.payload };
     case "update-ping-pong-delay":
       return { ...state, pingPongDelay: action.payload };

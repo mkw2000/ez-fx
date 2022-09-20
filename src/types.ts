@@ -4,7 +4,6 @@ import {
   Delay,
   Distortion,
   Phaser,
-  BaseContext,
   Chebyshev,
   StereoWidener,
   Vibrato,
@@ -27,16 +26,12 @@ import {
   NormalRange,
   Positive,
   Seconds,
-  Time,
 } from "tone/build/esm/core/type/Units";
-
-//TODO : replace Time with seconds
 
 export interface ReverbOptions {
   wet: NormalRange;
   preDelay: Seconds;
   decay: Seconds;
-  context?: BaseContext;
 }
 
 export interface ChorusOptions {
@@ -45,7 +40,6 @@ export interface ChorusOptions {
   delayTime: Milliseconds;
   depth: NormalRange;
   spread: Degrees;
-  context?: BaseContext;
   feedback: NormalRange;
 }
 
@@ -54,14 +48,12 @@ export interface PingPongDelayOptions {
   delayTime: Milliseconds;
   feedback: NormalRange;
   maxDelay: Seconds;
-  context?: BaseContext;
 }
 
 export interface DistortionOptions {
   wet: NormalRange;
   distortion: number;
   oversample: OverSampleType;
-  context?: BaseContext;
 }
 
 export interface PhaserOptions {
@@ -69,34 +61,30 @@ export interface PhaserOptions {
   frequency: Frequency;
   octaves: Positive;
   baseFrequency: Frequency;
-  context?: BaseContext;
   stages: Positive;
 }
 
 export interface ChebyshevOptions {
   order: number;
+  //TODO
   oversample?: OverSampleType;
-  context?: BaseContext;
   wet: NormalRange;
 }
 
 export interface StereoWidenerOptions {
   width: NormalRange;
-  context?: BaseContext;
   wet: NormalRange;
 }
 
 export interface VibratoOptions {
   frequency: Frequency;
   depth: NormalRange;
-  context?: BaseContext;
   wet: NormalRange;
 }
 
 export interface TremoloOptions {
   frequency: Frequency;
   depth: NormalRange;
-  context?: BaseContext;
   wet: NormalRange;
   spread: Degrees;
 }
@@ -104,7 +92,7 @@ export interface TremoloOptions {
 export interface PitchShiftOptions {
   pitch: Interval;
   windowSize: Seconds;
-  delayTime: Time;
+  delayTime: Seconds;
   feedback: NormalRange;
   wet: NormalRange;
 }
@@ -115,10 +103,10 @@ export interface FrequencyShifterOptions {
 }
 
 export interface FeedbackDelayOptions {
-  delayTime?: Time;
+  delayTime?: Seconds;
   feedback: NormalRange;
   wet: NormalRange;
-  maxDelay?: Time;
+  maxDelay?: Seconds;
 }
 
 export interface BitCrusherOptions {
@@ -129,7 +117,7 @@ export interface BitCrusherOptions {
 export interface AutoWahOptions {
   baseFrequency: Frequency;
   octaves: Positive;
-  follower?: Time;
+  follower?: Seconds;
   gain: GainFactor;
   sensitivity: Decibels;
   wet: NormalRange;
@@ -148,7 +136,6 @@ export interface CompressorOptions {
   ratio: Positive;
   attack: Seconds;
   release: Seconds;
-  context?: BaseContext;
   wet: NormalRange;
   knee: Decibels;
 }
