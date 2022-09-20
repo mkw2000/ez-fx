@@ -11,7 +11,6 @@ export const initialState: OptionsState = {
   distortion: {
     wet: 0.1,
     distortion: 0,
-    oversample: "none",
   },
   pingPongDelay: {
     wet: 0.1,
@@ -74,18 +73,10 @@ export const initialState: OptionsState = {
     wet: 0.1,
     bits: 0.1,
   },
-  autoWah: {
-    wet: 0.1,
-    baseFrequency: 0.1,
-    octaves: 0.1,
-    sensitivity: 0.1,
-    gain: 0.1,
-    follower: 0.1,
-  },
   autoFilter: {
     wet: 0.1,
     frequency: 0.1,
-    octaves: 0.1,
+    octaves: 0,
     baseFrequency: 0.1,
     depth: 0.1,
   },
@@ -120,9 +111,8 @@ export const initialFxRowsState: Row[] = [
       { id: "11", title: "frequencyShifter" },
       { id: "12", title: "feedbackDelay" },
       { id: "13", title: "bitCrusher" },
-      { id: "14", title: "autoWah" },
-      { id: "15", title: "autoFilter" },
-      { id: "16", title: "compressor" },
+      { id: "14", title: "autoFilter" },
+      { id: "15", title: "compressor" },
     ],
   },
 ];

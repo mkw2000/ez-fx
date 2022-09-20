@@ -3,84 +3,25 @@ import React from "react";
 import { FxOptionsContext } from "../../providers";
 import debounce from "lodash.debounce";
 import { fxControlsDebounceTime } from "../../constants";
-import { EffectsEnum } from "../../types";
-import { camelCaseToKebabCase } from "../../utils";
+import {
+  camelCaseToKebabCase,
+  getMax,
+  getMin,
+  getSteps,
+  stringToEffectsEnum,
+} from "../../utils";
 
 type Props = {
-  effect: EffectsEnum;
+  effect: string;
 };
 
 export function EffectController({ effect }: Props) {
   const { state, dispatch } = React.useContext(FxOptionsContext);
-  const effectState = state[effect];
+
+  const effectEnum = stringToEffectsEnum(effect);
+  const effectState = state[effectEnum];
   const entries = Object.entries(effectState);
   const dispatchType = camelCaseToKebabCase(effect);
-
-  const getSteps = (option: string) => {
-    switch (option) {
-      case "wet":
-      case "depth":
-      case "width":
-      case "feedback":
-        return 0.01;
-      case "preDelay":
-      case "decay":
-      case "order":
-      case "frequency":
-      case "windowSize":
-      case "bits":
-      case "gainFactor":
-      case "sensitivity":
-      case "threshold":
-      case "ratio":
-      case "attack":
-      case "release":
-      case "knee":
-      case "baseFrequency":
-      case "stages":
-      case "delayTime":
-      case "spread":
-      case "maxDelay":
-      case "distortion":
-      case "octaves":
-        return 1;
-      default:
-        throw new Error("Invalid option");
-    }
-  };
-
-  const getMax = (option: string) => {
-    switch (option) {
-      case "wet":
-      case "depth":
-      case "width":
-      case "feedback":
-        return 1;
-      case "preDelay":
-      case "decay":
-      case "order":
-      case "frequency":
-      case "windowSize":
-      case "bits":
-      case "gainFactor":
-      case "sensitivity":
-      case "threshold":
-      case "ratio":
-      case "attack":
-      case "release":
-      case "knee":
-      case "baseFrequency":
-      case "stages":
-      case "delayTime":
-      case "spread":
-      case "maxDelay":
-      case "distortion":
-      case "octaves":
-        return 100;
-      default:
-        throw new Error("Invalid option");
-    }
-  };
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -104,7 +45,7 @@ export function EffectController({ effect }: Props) {
               <input
                 id={option}
                 type="range"
-                min="0"
+                min={getMin(option)}
                 max={getMax(option)}
                 step={getSteps(option)}
                 defaultValue={value}

@@ -16,7 +16,6 @@ import {
   FrequencyShifterOptions,
   AutoFilterOptions,
   PitchShiftOptions,
-  AutoWahOptions,
   FeedbackDelayOptions,
   CompressorOptions,
 } from "../types";
@@ -41,12 +40,12 @@ type Action =
   | { type: "update-pitch-shift"; payload: PitchShiftOptions }
   | { type: "update-frequency-shifter"; payload: FrequencyShifterOptions }
   | { type: "update-feedback-delay"; payload: FeedbackDelayOptions }
-  | { type: "update-auto-wah"; payload: AutoWahOptions }
   | { type: "update-auto-filter"; payload: AutoFilterOptions }
   | { type: "update-compressor"; payload: CompressorOptions };
 
 const FxOptionsContext = createContext<{
   state: OptionsState;
+  //TODO - fix this type
   dispatch: Dispatch<any>;
 }>({
   state: initialState,
@@ -81,8 +80,6 @@ function reducer(state: OptionsState, action: Action): AppState {
       return { ...state, frequencyShifter: action.payload };
     case "update-feedback-delay":
       return { ...state, feedbackDelay: action.payload };
-    case "update-auto-wah":
-      return { ...state, autoWah: action.payload };
     case "update-auto-filter":
       return { ...state, autoFilter: action.payload };
     case "update-compressor":

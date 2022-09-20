@@ -11,7 +11,6 @@ import {
   FrequencyShifter,
   FeedbackDelay,
   BitCrusher,
-  AutoWah,
   AutoFilter,
   Tremolo,
   Compressor,
@@ -53,7 +52,7 @@ export interface PingPongDelayOptions {
 export interface DistortionOptions {
   wet: NormalRange;
   distortion: number;
-  oversample: OverSampleType;
+  oversample?: OverSampleType;
 }
 
 export interface PhaserOptions {
@@ -114,15 +113,6 @@ export interface BitCrusherOptions {
   wet: NormalRange;
 }
 
-export interface AutoWahOptions {
-  baseFrequency: Frequency;
-  octaves: Positive;
-  follower?: Seconds;
-  gain: GainFactor;
-  sensitivity: Decibels;
-  wet: NormalRange;
-}
-
 export interface AutoFilterOptions {
   frequency: Frequency;
   octaves: Positive;
@@ -154,7 +144,6 @@ export type OptionsState = {
   frequencyShifter: FrequencyShifterOptions;
   feedbackDelay: FeedbackDelayOptions;
   bitCrusher: BitCrusherOptions;
-  autoWah: AutoWahOptions;
   autoFilter: AutoFilterOptions;
   compressor: CompressorOptions;
 };
@@ -173,7 +162,6 @@ export enum EffectsEnum {
   FrequencyShifter = "frequencyShifter",
   FeedbackDelay = "feedbackDelay",
   BitCrusher = "bitCrusher",
-  AutoWah = "autoWah",
   AutoFilter = "autoFilter",
   Compressor = "compressor",
 }
@@ -195,7 +183,6 @@ export type EffectType = {
     | FrequencyShifter
     | FeedbackDelay
     | BitCrusher
-    | AutoWah
     | AutoFilter
     | Compressor;
 };

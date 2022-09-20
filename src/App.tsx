@@ -2,7 +2,7 @@ import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import * as Tone from "tone";
-import { FxControls, FxSection, Visualizer } from "./components";
+import { FxSection, Visualizer } from "./components";
 import { EffectsEnum, EffectType, Row } from "./types";
 import {
   Analyser,
@@ -19,6 +19,7 @@ import {
 import { initialFxRowsState } from "./constants";
 import React from "react";
 import { FxOptionsContext, FxOptionsProvider } from "./providers";
+import { EffectController } from "./components/effect-controller/effect-controller";
 
 function App() {
   const analyser = useRef<Analyser | null>(null);
@@ -42,7 +43,6 @@ function App() {
     React.useContext(FxOptionsContext);
 
   useEffect(() => {
-    console.log("effectOptionsState", effectOptionsState);
     reverb.current?.set(effectOptionsState.reverb);
     pingPongDelay.current?.set(effectOptionsState.pingPongDelay);
     distortion.current?.set(effectOptionsState.distortion);
@@ -53,16 +53,6 @@ function App() {
 
   useEffect(() => {
     //initialize Tone.js object references
-
-    // player.current = new Tone.Player();
-    // const MP3 =
-    //   "https://cdn.glitch.com/2929cbe3-bafa-4b5f-833f-7debb607569b%2F1-02%20Blue%20Jeans%20(Gesaffelstein%20Remix).mp3?v=1569254348843";
-
-    // player.current.loop = true;
-    // player.current.autostart = false;
-    // player.current.loopStart = 1.0;
-    // player.current.connect(Tone.Master);
-    // player.current.load(MP3);
 
     analyser.current = new Tone.Analyser("waveform", 128);
     reverb.current = new Tone.Reverb(effectOptionsState.reverb);
@@ -221,9 +211,7 @@ function App() {
       ) : null}
       <div className="app-main">
         <div className="fx-controls">
-          {selectedEffect ? (
-            <FxControls selectedEffect={selectedEffect} />
-          ) : null}
+          {selectedEffect ? <EffectController effect={selectedEffect} /> : null}
         </div>
         <DragDropContext onDragEnd={onDragEnd}>
           {rows
