@@ -1,3 +1,5 @@
 # EZ-FX
+
 ## _A pretty cool app_
-to be continued...
+
+https://ez-fx.vercel.app/

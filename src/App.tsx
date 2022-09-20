@@ -85,7 +85,12 @@ function App() {
   useEffect(() => {
     if (mic.current && analyser.current && mono.current) {
       mic.current.disconnect();
-      mic.current.chain(...effectsChain, analyser.current, Tone.Destination);
+      mic.current.chain(
+        mono.current,
+        ...effectsChain,
+        analyser.current,
+        Tone.Destination
+      );
     } else {
       alert("Oops, something went wrong -_-");
     }
