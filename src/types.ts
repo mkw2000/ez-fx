@@ -19,7 +19,6 @@ import {
   Decibels,
   Degrees,
   Frequency,
-  GainFactor,
   Interval,
   Milliseconds,
   NormalRange,

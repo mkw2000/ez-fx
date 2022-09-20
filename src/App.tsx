@@ -2,7 +2,7 @@ import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import * as Tone from "tone";
-import { FxSection, Visualizer } from "./components";
+import { FxSection, Visualizer, EffectController } from "./components";
 import { EffectsEnum, EffectType, Row } from "./types";
 import {
   Analyser,
@@ -18,8 +18,7 @@ import {
 } from "tone";
 import { initialFxRowsState } from "./constants";
 import React from "react";
-import { FxOptionsContext, FxOptionsProvider } from "./providers";
-import { EffectController } from "./components/effect-controller/effect-controller";
+import { FxOptionsContext } from "./providers";
 
 function App() {
   const analyser = useRef<Analyser | null>(null);
