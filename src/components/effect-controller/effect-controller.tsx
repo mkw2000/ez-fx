@@ -18,13 +18,15 @@ type Props = {
 export function EffectController({ effect }: Props) {
   const { state, dispatch } = React.useContext(FxOptionsContext);
 
-  const effectState = state[stringToEffectsEnum(effect)];
+  const effectEnum = stringToEffectsEnum(effect);
+  const effectState = state[effectEnum];
   const entries = Object.entries(effectState);
+  const dispatchType = camelCaseToKebabCase(effect);
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     const payload = { ...effectState, [id]: value };
-    dispatch({ type: `update-${camelCaseToKebabCase(effect)}`, payload });
+    dispatch({ type: `update-${dispatchType}`, payload });
   };
 
   const debouncedHandleOptionChange = debounce(
