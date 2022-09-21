@@ -94,17 +94,6 @@ function App() {
     autoFilter.current?.set(effectOptionsState.autoFilter);
   }, [effectOptionsState]);
 
-  useEffect(() => {
-    //initialize Tone.js object references
-
-    initializeEffects();
-
-    //dispose of all references on unmount
-    return function cleanup() {
-      cleanupEffects();
-    };
-  }, []);
-
   // reconnect input to new signal flow
   useEffect(() => {
     if (mic.current && analyser.current && mono.current) {
@@ -115,14 +104,13 @@ function App() {
         analyser.current,
         Tone.Destination
       );
-    } else {
-      alert("Oops, something went wrong -_-");
     }
   }, [effectsChain]);
 
   // handle drag and drop of effects
   useEffect(() => {
     // refreshing effects before redoing signal flow prevents weird bugs
+    console.log("destroy and recreate effects");
     cleanupEffects();
 
     initializeEffects();
@@ -206,6 +194,8 @@ function App() {
 
   // audio context must only be started after some user interaction
   const startAudioContext = () => {
+    mic.current = new Tone.UserMedia();
+
     Tone.start().then(() => {
       setAudioContextStarted(true);
 
@@ -257,6 +247,7 @@ function App() {
   };
 
   const initializeEffects = () => {
+    console.log("initializeEffects function");
     analyser.current = new Tone.Analyser("waveform", 128);
     reverb.current = new Tone.Reverb(effectOptionsState.reverb);
     chorus.current = new Tone.Chorus(effectOptionsState.chorus);

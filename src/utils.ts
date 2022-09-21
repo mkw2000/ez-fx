@@ -41,8 +41,18 @@ export const stringToEffectsEnum = (effect: string) => {
   }
 };
 
-export const getMin = (option: string) => {
+export const getMin = (option: string,effect:string) => {
   switch (option) {
+    case "bits":
+      return 1;
+    case "decay":
+      return effect === "reverb" ? .001 : 0;
+    case "ratio":
+      return 1;
+    case "threshold":
+      return -100;
+    case "knee":
+    return effect === 'compressor' ? 0 : -100;
     case "pitch":
       return -24;
     default:
@@ -50,13 +60,15 @@ export const getMin = (option: string) => {
   }
 };
 
-export const getSteps = (option: string) => {
+export const getSteps = (option: string,effect:string) => {
   switch (option) {
     case "wet":
     case "depth":
     case "width":
     case "feedback":
     case "follower":
+    case "attack":
+    case "release":
       return 0.01;
     case "preDelay":
     case "decay":
@@ -68,9 +80,6 @@ export const getSteps = (option: string) => {
     case "sensitivity":
     case "threshold":
     case "ratio":
-    case "attack":
-    case "release":
-    case "knee":
     case "baseFrequency":
     case "stages":
     case "delayTime":
@@ -79,18 +88,27 @@ export const getSteps = (option: string) => {
     case "distortion":
     case "pitch":
     case "octaves":
+    case "knee":
       return 1;
     default:
-      throw new Error("Invalid option");
+      throw new Error("getSteps: Invalid option");
   }
 };
 
-export const getMax = (option: string) => {
+export const getMax = (option: string,effect:string) => {
   switch (option) {
+    case "bits":
+      return 16;
+    case "threshold":
+      return 0;
+    case "knee":
+      return effect === 'compressor' ? 40 : 0;
     case "wet":
     case "depth":
     case "width":
     case "feedback":
+    case "attack":
+    case "release":
     case "follower":
       return 1;
     case "preDelay":
@@ -98,14 +116,8 @@ export const getMax = (option: string) => {
     case "order":
     case "frequency":
     case "windowSize":
-    case "bits":
     case "gainFactor":
     case "sensitivity":
-    case "threshold":
-    case "ratio":
-    case "attack":
-    case "release":
-    case "knee":
     case "baseFrequency":
     case "stages":
     case "delayTime":
@@ -113,10 +125,12 @@ export const getMax = (option: string) => {
     case "maxDelay":
     case "distortion":
       return 100;
+    case "ratio":
+      return 20;
     case "pitch":
     case "octaves":
       return 24;
     default:
-      throw new Error("Invalid option");
+      throw new Error("getMax: Invalid option");
   }
 };

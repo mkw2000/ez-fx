@@ -43,9 +43,9 @@ export function EffectController({ effect }: Props) {
               <input
                 id={option}
                 type="range"
-                min={getMin(option)}
-                max={getMax(option)}
-                step={getSteps(option)}
+                min={getMin(option, effect)}
+                max={getMax(option, effect)}
+                step={getSteps(option, effect)}
                 defaultValue={value}
                 onChange={debouncedHandleOptionChange}
               />

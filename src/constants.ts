@@ -72,7 +72,7 @@ export const initialState: OptionsState = {
   },
   bitCrusher: {
     wet: 0.1,
-    bits: 0.1,
+    bits: 1,
   },
   autoFilter: {
     wet: 0.1,
@@ -83,11 +83,11 @@ export const initialState: OptionsState = {
   },
   compressor: {
     wet: 0.1,
-    threshold: 0.1,
-    ratio: 0.1,
-    attack: 0.1,
-    release: 0.1,
-    knee: 0.1,
+    threshold: 0,
+    ratio: 1,
+    attack: 1,
+    release: 1,
+    knee: 1,
   },
 };
 
