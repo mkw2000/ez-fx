@@ -183,7 +183,10 @@ function App() {
     autoFilter.current?.dispose();
     mono.current?.dispose();
 
-    reverb.current = new Reverb(effectOptionsState.reverb);
+    isEffectActive(EffectsEnum.Reverb)
+      ? (reverb.current = new Reverb(effectOptionsState.reverb))
+      : null;
+
     pingPongDelay.current = new PingPongDelay(effectOptionsState.pingPongDelay);
     chorus.current = new Chorus(effectOptionsState.chorus);
     distortion.current = new Distortion(effectOptionsState.distortion);
@@ -299,6 +302,12 @@ function App() {
           });
       }
     });
+  };
+
+  const isEffectActive = (effect: EffectsEnum) => {
+    return rows
+      .filter((row) => row.groupName === "active-row")[0]
+      .effects.some((fx) => fx.title === effect);
   };
 
   const onDragEnd = (result: DropResult) => {
