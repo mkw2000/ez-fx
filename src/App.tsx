@@ -94,7 +94,6 @@ function App() {
     autoFilter.current?.set(effectOptionsState.autoFilter);
   }, [effectOptionsState]);
 
-<<<<<<< HEAD
   useEffect(() => {
     //initialize Tone.js object references
 
@@ -149,8 +148,6 @@ function App() {
     };
   }, []);
 
-=======
->>>>>>> 27987a2b6719bdf9935a65c20ed5808eafd3ece0
   // reconnect input to new signal flow
   useEffect(() => {
     if (mic.current && analyser.current && mono.current) {
@@ -167,7 +164,6 @@ function App() {
   // handle drag and drop of effects
   useEffect(() => {
     // refreshing effects before redoing signal flow prevents weird bugs
-<<<<<<< HEAD
     reverb.current?.dispose();
     pingPongDelay.current?.dispose();
     chorus.current?.dispose();
@@ -207,12 +203,6 @@ function App() {
     autoFilter.current = new AutoFilter(effectOptionsState.autoFilter);
 
     mono.current = new Mono();
-=======
-    console.log("destroy and recreate effects");
-    cleanupEffects();
-
-    initializeEffects();
->>>>>>> 27987a2b6719bdf9935a65c20ed5808eafd3ece0
 
     const activeFx = rows.filter((row) => row.groupName === "active-row")[0]
       .effects;
