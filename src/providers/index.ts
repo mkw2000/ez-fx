@@ -1,1 +1,1 @@
-export * from './fx-options'
+export * from "./fx-options-provider";

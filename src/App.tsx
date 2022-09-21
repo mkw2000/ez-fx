@@ -94,6 +94,7 @@ function App() {
     autoFilter.current?.set(effectOptionsState.autoFilter);
   }, [effectOptionsState]);
 
+<<<<<<< HEAD
   useEffect(() => {
     //initialize Tone.js object references
 
@@ -148,6 +149,8 @@ function App() {
     };
   }, []);
 
+=======
+>>>>>>> 27987a2b6719bdf9935a65c20ed5808eafd3ece0
   // reconnect input to new signal flow
   useEffect(() => {
     if (mic.current && analyser.current && mono.current) {
@@ -158,14 +161,13 @@ function App() {
         analyser.current,
         Tone.Destination
       );
-    } else {
-      alert("Oops, something went wrong -_-");
     }
   }, [effectsChain]);
 
   // handle drag and drop of effects
   useEffect(() => {
     // refreshing effects before redoing signal flow prevents weird bugs
+<<<<<<< HEAD
     reverb.current?.dispose();
     pingPongDelay.current?.dispose();
     chorus.current?.dispose();
@@ -205,6 +207,12 @@ function App() {
     autoFilter.current = new AutoFilter(effectOptionsState.autoFilter);
 
     mono.current = new Mono();
+=======
+    console.log("destroy and recreate effects");
+    cleanupEffects();
+
+    initializeEffects();
+>>>>>>> 27987a2b6719bdf9935a65c20ed5808eafd3ece0
 
     const activeFx = rows.filter((row) => row.groupName === "active-row")[0]
       .effects;
@@ -285,6 +293,8 @@ function App() {
 
   // audio context must only be started after some user interaction
   const startAudioContext = () => {
+    mic.current = new Tone.UserMedia();
+
     Tone.start().then(() => {
       setAudioContextStarted(true);
 
@@ -292,9 +302,7 @@ function App() {
         mic.current
           .open()
           .then(() => {
-            if (player.current !== null) {
-              player.current.start();
-            }
+            console.log("Mic opened");
           })
           .catch((e) => {
             // promise is rejected when the user doesn't have or allow mic access
@@ -341,6 +349,57 @@ function App() {
 
     destinationRow[0].effects.splice(destination.index, 0, movingEffect);
     setRows(clonedRows);
+  };
+
+  const initializeEffects = () => {
+    console.log("initializeEffects function");
+    analyser.current = new Tone.Analyser("waveform", 128);
+    reverb.current = new Tone.Reverb(effectOptionsState.reverb);
+    chorus.current = new Tone.Chorus(effectOptionsState.chorus);
+    pingPongDelay.current = new Tone.PingPongDelay(
+      effectOptionsState.pingPongDelay
+    );
+    distortion.current = new Tone.Distortion(effectOptionsState.distortion);
+    phaser.current = new Tone.Phaser(effectOptionsState.phaser);
+    chebyshev.current = new Tone.Chebyshev(effectOptionsState.chebyshev);
+    stereoWidener.current = new Tone.StereoWidener(
+      effectOptionsState.stereoWidener
+    );
+    bitCrusher.current = new Tone.BitCrusher(effectOptionsState.bitCrusher);
+    vibrato.current = new Tone.Vibrato(effectOptionsState.vibrato);
+    tremolo.current = new Tone.Tremolo(effectOptionsState.tremolo);
+    compressor.current = new Tone.Compressor(effectOptionsState.compressor);
+    feedbackDelay.current = new Tone.FeedbackDelay(
+      effectOptionsState.feedbackDelay
+    );
+    pitchShift.current = new Tone.PitchShift(effectOptionsState.pitchShift);
+    frequencyShifter.current = new Tone.FrequencyShifter(
+      effectOptionsState.frequencyShifter
+    );
+    autoFilter.current = new Tone.AutoFilter(effectOptionsState.autoFilter);
+    mic.current = new Tone.UserMedia();
+    mono.current = new Tone.Mono();
+  };
+
+  const cleanupEffects = () => {
+    analyser.current && analyser.current.dispose();
+    reverb.current && reverb.current.dispose();
+    chorus.current && chorus.current.dispose();
+    pingPongDelay.current && pingPongDelay.current.dispose();
+    distortion.current && distortion.current.dispose();
+    phaser.current && phaser.current.dispose();
+    chebyshev.current && chebyshev.current.dispose();
+    stereoWidener.current && stereoWidener.current.dispose();
+    bitCrusher.current && bitCrusher.current.dispose();
+    pitchShift.current && pitchShift.current.dispose();
+    frequencyShifter.current && frequencyShifter.current.dispose();
+    autoFilter.current && autoFilter.current.dispose();
+    tremolo.current && tremolo.current.dispose();
+    vibrato.current && vibrato.current.dispose();
+    compressor.current && compressor.current.dispose();
+    feedbackDelay.current && feedbackDelay.current.dispose();
+    mic.current && mic.current.dispose();
+    mono.current && mono.current.dispose();
   };
 
   return (
