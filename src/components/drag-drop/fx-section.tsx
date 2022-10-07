@@ -14,7 +14,8 @@ export function FxSection({ onSelect, row, effects }: Props) {
     <Droppable direction="horizontal" droppableId={row}>
       {(provided) => (
         <div
-          className="flex flex-col items-stretch justify-between min-h-full"
+          className="flex flex-col items-stretch justify-between min-h-full bg-lime-200 h-24
+          "
           ref={provided.innerRef}
         >
           <div>{row}</div>

@@ -1,5 +1,4 @@
 import { Draggable } from "@hello-pangea/dnd";
-import styled from "styled-components";
 
 type Props = {
   effectId: string;
