@@ -1,6 +1,5 @@
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import { useEffect, useRef, useState } from "react";
-import "./App.css";
 import * as Tone from "tone";
 import { FxSection, Visualizer, EffectController } from "./components";
 import { EffectsEnum, EffectType, Row } from "./types";
@@ -335,7 +334,7 @@ function App() {
   };
 
   return (
-    <div className="app-container">
+    <div className="bg-gray-300 flex flex-col items-stretch justify-between min-h-screen">
       <div className="app-header">EzFx</div>
       {!audioContextStarted ? (
         <button

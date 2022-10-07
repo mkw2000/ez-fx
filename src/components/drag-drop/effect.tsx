@@ -6,25 +6,18 @@ type Props = {
   index: number;
 };
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Title = styled.p``;
-
 export function Effect({ effectId, index }: Props) {
   return (
     <Draggable draggableId={effectId} index={index}>
       {(provided) => (
-        <Container
+        <div
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          className="effect"
+          className="h-12 w-12 ml=5 mr-5  flex flex-col overflow-hidden bg-indigo-500"
         >
-          <Title>{effectId}</Title>
-        </Container>
+          <div>{effectId}</div>
+        </div>
       )}
     </Draggable>
   );

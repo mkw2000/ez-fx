@@ -9,28 +9,16 @@ type Props = {
   effects: EffectType[];
 };
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: space-between;
-  min-height: 100%;
-`;
-const Title = styled.h3``;
-const Effects = styled.div`
-  display: flex;
-  flex-direction: row;
-  max-width: 100vw;
-  overflow-x: scroll;
-`;
-
 export function FxSection({ onSelect, row, effects }: Props) {
   return (
     <Droppable direction="horizontal" droppableId={row}>
       {(provided) => (
-        <Container ref={provided.innerRef}>
-          <Title>{row}</Title>
-          <Effects className="effects">
+        <div
+          className="flex flex-col items-stretch justify-between min-h-full"
+          ref={provided.innerRef}
+        >
+          <div>{row}</div>
+          <div className="flex flex-row overflow-x-scroll max-w-full">
             {effects
               ? effects.map((effect, i) => {
                   return (
@@ -46,8 +34,8 @@ export function FxSection({ onSelect, row, effects }: Props) {
                 })
               : null}
             {provided.placeholder}
-          </Effects>
-        </Container>
+          </div>
+        </div>
       )}
     </Droppable>
   );
