@@ -94,8 +94,6 @@ function App() {
   }, [effectOptionsState]);
 
   useEffect(() => {
-    //initialize Tone.js object references
-
     analyser.current = new Tone.Analyser("waveform", 128);
     reverb.current = new Tone.Reverb(effectOptionsState.reverb);
     chorus.current = new Tone.Chorus(effectOptionsState.chorus);
@@ -333,21 +331,35 @@ function App() {
     setRows(clonedRows);
   };
 
+  const onClearSelectedEffect = () => {
+    setSelectedEffect(null);
+  };
+
   return (
     <div className="bg-gray-300 flex flex-col items-stretch justify-between min-h-screen">
-      <div className="app-header">EzFx</div>
-      {!audioContextStarted ? (
-        <button
-          onClick={() => {
-            startAudioContext();
-          }}
-        >
-          start audio context
-        </button>
-      ) : null}
+      <div className="min-w-screen flex flex-row items-center justify-between">
+        <h2>EzFx</h2>
+        {!audioContextStarted ? (
+          <button
+            onClick={() => {
+              startAudioContext();
+            }}
+          >
+            start audio context
+          </button>
+        ) : (
+          <p>audio started</p>
+        )}
+      </div>
+
       <div className="app-main">
         <div className="fx-controls">
-          {selectedEffect ? <EffectController effect={selectedEffect} /> : null}
+          {selectedEffect ? (
+            <EffectController
+              clearSelected={onClearSelectedEffect}
+              effect={selectedEffect}
+            />
+          ) : null}
         </div>
         <DragDropContext onDragEnd={onDragEnd}>
           {rows

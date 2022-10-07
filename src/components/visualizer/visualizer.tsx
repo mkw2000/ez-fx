@@ -64,7 +64,7 @@ export function Visualizer({ analyser }: Props) {
         width={width}
         height={200}
         tabIndex={0}
-        aria-label="Second Brain"
+        aria-label="Audio Visualizer"
       >
         Audio frequency visualizer
       </canvas>

@@ -13,9 +13,10 @@ import {
 
 type Props = {
   effect: string;
+  clearSelected: () => void;
 };
 
-export function EffectController({ effect }: Props) {
+export function EffectController({ effect, clearSelected }: Props) {
   const { state, dispatch } = React.useContext(FxOptionsContext);
 
   const effectEnum = stringToEffectsEnum(effect);
@@ -35,9 +36,10 @@ export function EffectController({ effect }: Props) {
   );
 
   return (
-    <div className="effect-controller">
+    <div className="flex flex-col overflow-hidden">
       <div className="fx-controls-header">{effect}</div>
-      <div className="fx-controls-body">
+      <button onClick={clearSelected}>X</button>
+      <div className="flex flex-col">
         {entries.map(([option, value]) => {
           return (
             <div key={option} className="fx-control">
