@@ -352,29 +352,30 @@ function App() {
         )}
       </div>
 
-      <div className="app-main">
-        <div className="fx-controls">
+      <div className="flex flex-col justify-center items-center">
+        <div className="w-72">
           {selectedEffect ? (
             <EffectController
               clearSelected={onClearSelectedEffect}
               effect={selectedEffect}
             />
-          ) : null}
+          ) : (
+            <DragDropContext onDragEnd={onDragEnd}>
+              {rows
+                ? rows.map((row: Row, i: number) => {
+                    return (
+                      <FxSection
+                        onSelect={setSelectedEffect}
+                        key={row.groupName + i}
+                        row={row.groupName}
+                        effects={row.effects}
+                      />
+                    );
+                  })
+                : null}
+            </DragDropContext>
+          )}
         </div>
-        <DragDropContext onDragEnd={onDragEnd}>
-          {rows
-            ? rows.map((row: Row, i: number) => {
-                return (
-                  <FxSection
-                    onSelect={setSelectedEffect}
-                    key={row.groupName + i}
-                    row={row.groupName}
-                    effects={row.effects}
-                  />
-                );
-              })
-            : null}
-        </DragDropContext>
       </div>
       <Visualizer analyser={analyser.current} />
     </div>

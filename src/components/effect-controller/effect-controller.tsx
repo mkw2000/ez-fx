@@ -28,6 +28,8 @@ export function EffectController({ effect, clearSelected }: Props) {
     const { id, value } = e.target;
     const payload = { ...effectState, [id]: value };
     dispatch({ type: `update-${dispatchType}`, payload });
+
+    // console.log("e", e);
   };
 
   const debouncedHandleOptionChange = debounce(

@@ -41,18 +41,18 @@ export const stringToEffectsEnum = (effect: string) => {
   }
 };
 
-export const getMin = (option: string,effect:string) => {
+export const getMin = (option: string, effect: string) => {
   switch (option) {
     case "bits":
       return 1;
     case "decay":
-      return effect === "reverb" ? .001 : 0;
+      return effect === "reverb" ? 0.001 : 0;
     case "ratio":
       return 1;
     case "threshold":
       return -100;
     case "knee":
-    return effect === 'compressor' ? 0 : -100;
+      return effect === "compressor" ? 0 : -100;
     case "pitch":
       return -24;
     default:
@@ -60,7 +60,7 @@ export const getMin = (option: string,effect:string) => {
   }
 };
 
-export const getSteps = (option: string,effect:string) => {
+export const getSteps = (option: string, effect: string) => {
   switch (option) {
     case "wet":
     case "depth":
@@ -95,14 +95,14 @@ export const getSteps = (option: string,effect:string) => {
   }
 };
 
-export const getMax = (option: string,effect:string) => {
+export const getMax = (option: string, effect: string) => {
   switch (option) {
     case "bits":
       return 16;
     case "threshold":
       return 0;
     case "knee":
-      return effect === 'compressor' ? 40 : 0;
+      return effect === "compressor" ? 40 : 0;
     case "wet":
     case "depth":
     case "width":

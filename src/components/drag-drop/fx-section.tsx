@@ -11,19 +11,18 @@ type Props = {
 
 export function FxSection({ onSelect, row, effects }: Props) {
   return (
-    <div className="mt-5 mb-5 min-h-24 flex flex-col">
-      <div className="font-bold min-w-full flex flex-row justify-center items-center">
-        {row}
+    <div className="mt-5 mb-5 flex flex-col">
+      <div className="font-bold flex flex-row justify-center items-center">
+        {row === "disabled-row" ? "Disabled" : "Active"}
       </div>
 
-      <Droppable direction="horizontal" droppableId={row}>
+      <Droppable direction="vertical" droppableId={row}>
         {(provided) => (
           <div
-            className="flex flex-col items-stretch justify-between h-24
-          "
+            className="flex flex-col justify-between"
             ref={provided.innerRef}
           >
-            <div className="flex flex-row overflow-x-scroll max-w-full justify-start items-center">
+            <div className="pt-5 pb-5 flex flex-col justify-center items-center">
               {effects.length > 0 ? (
                 effects.map((effect, i) => {
                   return (
@@ -38,7 +37,7 @@ export function FxSection({ onSelect, row, effects }: Props) {
                   );
                 })
               ) : (
-                <div className="h-12 min-w-full flex flex-row items-center justify-center">
+                <div className="flex items-center justify-center">
                   no effects
                 </div>
               )}

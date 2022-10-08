@@ -13,9 +13,9 @@ export function Effect({ effectId, index }: Props) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          className="h-12 w-12 ml=5 mr-5 flex flex-col overflow-hidden border-solid border-2 rounded border-sky-500 items-center justify-center"
+          className="h-12 w-72 m-1 flex flex-col overflow-hidden border-solid border-2 rounded border-sky-500 items-center justify-center"
         >
-          <div>{effectId.slice(0, 5).toUpperCase()}</div>
+          <div>{effectId.toUpperCase()}</div>
         </div>
       )}
     </Draggable>

@@ -1,6 +1,6 @@
 import { OptionsState, Row } from "./types";
 
-export const fxControlsDebounceTime = 100;
+export const fxControlsDebounceTime = 150;
 
 //TODO: make better defaults
 export const initialState: OptionsState = {
