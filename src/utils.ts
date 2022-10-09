@@ -82,7 +82,7 @@ export const getSteps = (option: string, effect: string) => {
     case "ratio":
     case "baseFrequency":
     case "stages":
-    case "delayTime":
+
     case "spread":
     case "maxDelay":
     case "distortion":
@@ -90,6 +90,8 @@ export const getSteps = (option: string, effect: string) => {
     case "octaves":
     case "knee":
       return 1;
+    case "delayTime":
+      return effect === "feedbackDelay" ? 0.01 : 1;
     default:
       throw new Error("getSteps: Invalid option");
   }
