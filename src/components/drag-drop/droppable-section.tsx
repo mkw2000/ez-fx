@@ -1,7 +1,7 @@
 import { Droppable } from "@hello-pangea/dnd";
 import styled from "styled-components";
 import { EffectsEnum, EffectType } from "../../types";
-import { Effect } from "./effect";
+import { Effect } from "./draggable-effect";
 
 type Props = {
   onSelect: (effect: string) => void;
