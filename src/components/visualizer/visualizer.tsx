@@ -4,9 +4,11 @@ import { useWindowDimensions } from "../../hooks";
 
 type Props = {
   analyser: Analyser | null;
+  customHeight?: number;
+  customWidth?: number;
 };
 
-export function Visualizer({ analyser }: Props) {
+export function Visualizer({ analyser, customHeight, customWidth }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasCtxRef = useRef<CanvasRenderingContext2D | null>(null);
   const { height, width } = useWindowDimensions();
@@ -57,17 +59,14 @@ export function Visualizer({ analyser }: Props) {
   }, [draw]);
 
   return (
-    <div>
-      <canvas
-        ref={canvasRef}
-        id="canvas"
-        width={width}
-        height={200}
-        tabIndex={0}
-        aria-label="Audio Visualizer"
-      >
-        Audio frequency visualizer
-      </canvas>
-    </div>
+    <canvas
+      ref={canvasRef}
+      id="canvas"
+      width={customWidth ? customWidth : width}
+      height={customHeight ? customHeight : 100}
+      aria-label="Audio Visualizer"
+    >
+      Audio frequency visualizer
+    </canvas>
   );
 }

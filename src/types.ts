@@ -26,6 +26,15 @@ import {
   Seconds,
 } from "tone/build/esm/core/type/Units";
 
+export type Preset = {
+  name: string;
+  options: OptionsState;
+  public:boolean;
+  createdBy:string;
+  createdAt:Date;
+}
+
+
 export interface ReverbOptions {
   wet: NormalRange;
   preDelay: Seconds;

@@ -336,8 +336,8 @@ function App() {
   };
 
   return (
-    <div className="bg-gray-300 flex flex-col items-stretch justify-between min-h-screen">
-      <div className="min-w-screen flex flex-row items-center justify-between">
+    <div className="flex flex-col h-screen bg-gray-300 ">
+      <header className="py-5 px-5 min-w-screen flex flex-row items-center justify-between bg-pink-300">
         <h2>EzFx</h2>
         {!audioContextStarted ? (
           <button
@@ -350,10 +350,10 @@ function App() {
         ) : (
           <p>audio started</p>
         )}
-      </div>
+      </header>
 
-      <div className="flex flex-col justify-center items-center">
-        <div className="w-72">
+      <main className="flex-1 flex-col justify-center items-center overflow-y-auto">
+        <div className="flex-col justify-center items-center">
           {selectedEffect ? (
             <EffectController
               clearSelected={onClearSelectedEffect}
@@ -376,8 +376,7 @@ function App() {
             </DragDropContext>
           )}
         </div>
-      </div>
-      <Visualizer analyser={analyser.current} />
+      </main>
     </div>
   );
 }

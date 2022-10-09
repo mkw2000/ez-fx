@@ -38,15 +38,25 @@ export function EffectController({ effect, clearSelected }: Props) {
   );
 
   return (
-    <div className="flex flex-col overflow-hidden">
-      <div className="fx-controls-header">{effect}</div>
-      <button onClick={clearSelected}>X</button>
-      <div className="flex flex-col">
+    <div className="flex flex-col bg-green-200 justify-center items-center min-h-max">
+      <div className="flex flex-row">
+        <h1 className="mx-3">{effect} options</h1>
+        <button className="font-bold hover:bg-blue-300" onClick={clearSelected}>
+          X
+        </button>
+      </div>
+      <div className="flex flex-col w-96">
         {entries.map(([option, value]) => {
           return (
-            <div key={option} className="fx-control">
-              <label htmlFor={`${effect}-${option}`}>{option}</label>
+            <div key={option} className="my-2">
+              <label
+                className="font-bold text-gray-600"
+                htmlFor={`${effect}-${option}`}
+              >
+                {option}: {value}
+              </label>
               <input
+                className="w-full h-2 bg-blue-100 appearance-none"
                 id={option}
                 type="range"
                 min={getMin(option, effect)}
