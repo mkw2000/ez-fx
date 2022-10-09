@@ -1,5 +1,37 @@
-# EZ-FX
 
-## _If you love effects pedals, but you don't want to spend a ton of money, then this is the perfect tool for you. Ez-Fx is an easy to use Web based audio effects rack that lets you save and share presets. It has everything you need to jam out with your rig - from distortion and wah, to tremolo and reverb._
+# Ez-Fx
 
-https://ez-fx.vercel.app/
+A free audio effects rack / pedalboard in your browser.
+
+
+## Features
+
+- 15 audio effects
+- Log in and save / load effects presets
+- Fullscreen mode 
+- Light/dark mode 
+
+
+## Installation
+
+Install dependencies with npm
+
+```bash
+  npm install 
+```
+    
+Start local server
+
+```bash
+  npm run dev
+```
+    
+## Acknowledgements
+
+ - [Tone.js](https://tonejs.github.io/)
+
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+

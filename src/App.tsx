@@ -1,7 +1,7 @@
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import { useEffect, useRef, useState } from "react";
 import * as Tone from "tone";
-import { FxSection, Visualizer, EffectController } from "./components";
+import { FxSection, Modal, Visualizer } from "./components";
 import { EffectsEnum, EffectType, Row } from "./types";
 import {
   Analyser,
@@ -162,7 +162,6 @@ function App() {
 
   // handle drag and drop of effects
   useEffect(() => {
-    // refreshing effects before redoing signal flow prevents weird bugs
     reverb.current?.dispose();
     pingPongDelay.current?.dispose();
     chorus.current?.dispose();
@@ -331,36 +330,34 @@ function App() {
     setRows(clonedRows);
   };
 
-  const onClearSelectedEffect = () => {
-    setSelectedEffect(null);
-  };
-
   return (
     <div className="flex flex-col h-screen bg-gray-300 ">
-      <header className="py-5 px-5 min-w-screen flex flex-row items-center justify-between bg-pink-300">
-        <h2>EzFx</h2>
+      <header className="py-5 px-5 min-w-screen flex flex-row items-center justify-between h-16">
+        <img className="h-16" src="ezfx-logo.png" />
+        <div>
+          <Visualizer
+            customWidth={300}
+            customHeight={50}
+            analyser={analyser.current}
+          />
+        </div>
         {!audioContextStarted ? (
           <button
             onClick={() => {
               startAudioContext();
             }}
           >
-            start audio context
+            Start Audio
           </button>
         ) : (
-          <p>audio started</p>
+          <div className="rounded-full h-3 w-3 bg-red-500 animate-pulse" />
         )}
       </header>
 
-      <main className="flex-1 flex-col justify-center items-center overflow-y-auto">
-        <div className="flex-col justify-center items-center">
-          {selectedEffect ? (
-            <EffectController
-              clearSelected={onClearSelectedEffect}
-              effect={selectedEffect}
-            />
-          ) : (
-            <DragDropContext onDragEnd={onDragEnd}>
+      <main className="flex-1 justify-center items-center overflow-y-auto">
+        <div className="flex flex-col justify-center items-center">
+          <DragDropContext onDragEnd={onDragEnd}>
+            <div className="w-72">
               {rows
                 ? rows.map((row: Row, i: number) => {
                     return (
@@ -373,9 +370,15 @@ function App() {
                     );
                   })
                 : null}
-            </DragDropContext>
-          )}
+            </div>
+          </DragDropContext>
         </div>
+        <Modal
+          effect={selectedEffect}
+          onClose={() => setSelectedEffect(null)}
+          show={selectedEffect !== null}
+        />
+        )
       </main>
     </div>
   );

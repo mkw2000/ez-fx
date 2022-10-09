@@ -13,10 +13,9 @@ import {
 
 type Props = {
   effect: string;
-  clearSelected: () => void;
 };
 
-export function EffectController({ effect, clearSelected }: Props) {
+export function EffectController({ effect }: Props) {
   const { state, dispatch } = React.useContext(FxOptionsContext);
 
   const effectEnum = stringToEffectsEnum(effect);
@@ -28,8 +27,6 @@ export function EffectController({ effect, clearSelected }: Props) {
     const { id, value } = e.target;
     const payload = { ...effectState, [id]: value };
     dispatch({ type: `update-${dispatchType}`, payload });
-
-    // console.log("e", e);
   };
 
   const debouncedHandleOptionChange = debounce(
@@ -38,13 +35,7 @@ export function EffectController({ effect, clearSelected }: Props) {
   );
 
   return (
-    <div className="flex flex-col bg-green-200 justify-center items-center min-h-max">
-      <div className="flex flex-row">
-        <h1 className="mx-3">{effect} options</h1>
-        <button className="font-bold hover:bg-blue-300" onClick={clearSelected}>
-          X
-        </button>
-      </div>
+    <div className="bg-green-200 growself-center">
       <div className="flex flex-col w-96">
         {entries.map(([option, value]) => {
           return (

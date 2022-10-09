@@ -37,8 +37,8 @@ export function FxSection({ onSelect, row, effects }: Props) {
                   );
                 })
               ) : (
-                <div className="flex items-center justify-center">
-                  no effects
+                <div className="animate-bounce flex items-center justify-center">
+                  Drag effects here.
                 </div>
               )}
               {provided.placeholder}
