@@ -1,4 +1,5 @@
 import { Draggable } from "@hello-pangea/dnd";
+import { formatEffectName } from "../../utils";
 
 type Props = {
   effectId: string;
@@ -6,6 +7,8 @@ type Props = {
 };
 
 export function Effect({ effectId, index }: Props) {
+  const effectTitle = formatEffectName(effectId);
+
   return (
     <Draggable draggableId={effectId} index={index}>
       {(provided) => (
@@ -15,7 +18,7 @@ export function Effect({ effectId, index }: Props) {
           ref={provided.innerRef}
           className="h-12 w-72 m-1 flex flex-col overflow-hidden border-solid border-2 rounded border-sky-500 items-center justify-center"
         >
-          <div>{effectId.toUpperCase()}</div>
+          <div>{effectTitle}</div>
         </div>
       )}
     </Draggable>

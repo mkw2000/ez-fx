@@ -27,6 +27,7 @@ import {
 import { initialFxRowsState } from "./constants";
 import React from "react";
 import { FxOptionsContext } from "./providers";
+import { formatEffectName } from "./utils";
 
 function App() {
   const analyser = useRef<Analyser | null>(null);
@@ -331,7 +332,7 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-300 ">
+    <div className="flex flex-col h-screen bg-gray-300">
       <header className="py-5 px-5 min-w-screen flex flex-row items-center justify-between h-16">
         <img className="h-16" src="ezfx-logo.png" />
         <div>
@@ -377,6 +378,7 @@ function App() {
           effect={selectedEffect}
           onClose={() => setSelectedEffect(null)}
           show={selectedEffect !== null}
+          title={`${formatEffectName(selectedEffect || "")} Options`}
         />
         )
       </main>

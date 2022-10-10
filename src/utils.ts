@@ -41,6 +41,43 @@ export const stringToEffectsEnum = (effect: string) => {
   }
 };
 
+export const formatEffectName = (effect: EffectsEnum | string) => {
+  switch (effect) {
+    case EffectsEnum.BitCrusher:
+      return "Bit Crusher";
+    case EffectsEnum.Reverb:
+      return "Reverb";
+    case EffectsEnum.PingPongDelay:
+      return "PingPong Delay";
+    case EffectsEnum.Tremolo:
+      return "Tremelo";
+    case EffectsEnum.Phaser:
+      return "Phaser";
+    case EffectsEnum.Chorus:
+      return "Chorus";
+    case EffectsEnum.Vibrato:
+      return "Vibrato";
+    case EffectsEnum.StereoWidener:
+      return "Stereo Widener";
+    case EffectsEnum.Chebyshev:
+      return "Chebyshev Distortion";
+    case EffectsEnum.Distortion:
+      return "Distortion";
+    case EffectsEnum.PitchShift:
+      return "Pitch Shifter";
+    case EffectsEnum.FeedbackDelay:
+      return "Feedback Delay";
+    case EffectsEnum.Compressor:
+      return "Compressor";
+    case EffectsEnum.AutoFilter:
+      return "Auto Filter";
+    case EffectsEnum.FrequencyShifter:
+      return "Frequency Shifter";
+    default:
+      return "Effect";
+  }
+};
+
 export const getMin = (option: string, effect: string) => {
   switch (option) {
     case "bits":
@@ -99,6 +136,8 @@ export const getSteps = (option: string, effect: string) => {
 
 export const getMax = (option: string, effect: string) => {
   switch (option) {
+    case "delayTime":
+      return effect === "feedbackDelay" ? 0.1 : 1000;
     case "bits":
       return 16;
     case "threshold":

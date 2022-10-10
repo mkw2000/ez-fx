@@ -8,6 +8,7 @@ import {
   getMax,
   getMin,
   getSteps,
+  formatEffectName,
   stringToEffectsEnum,
 } from "../../utils";
 
@@ -35,7 +36,7 @@ export function EffectController({ effect }: Props) {
   );
 
   return (
-    <div className="bg-green-200 growself-center">
+    <div className="grow self-center">
       <div className="flex flex-col w-96">
         {entries.map(([option, value]) => {
           return (
